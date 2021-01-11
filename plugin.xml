@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e107Plugin name="2FA" lan="LAN_PLUGIN_2FA_NAME" version="1.0" date="2021-01-11" compatibility="2.0" installRequired="true" >
+	<author name="Tijn Kuyper (Moc)" url="https://www.tijnkuyper.nl" />
+	<summary>Plugin that adds 2FA / TOTP functionality</summary>
+	<description lan="LAN_PLUGIN_2FA_DIZ">Plugin that adds 2FA / TOTP functionality</description>
+	<category>misc</category>
+	<keywords>
+		<word>two-factor authenthication</word>
+		<word>2fa</word>
+		<word>TOTP</word>
+	</keywords>
+	<adminLinks>
+		<link url='admin_config.php' description='Configure 2FA' icon='images/2fa_32.png' iconSmall='images/2fa_16.png' icon128="images/2fa_128.png" primary='true'>LAN_CONFIGURE</link>
+	</adminLinks>
+	<pluginPrefs>
+		<pref name="2fa_qrcode">0</pref>
+		<pref name="2fa_debug">0</pref>
+	</pluginPrefs>
+</e107Plugin>
