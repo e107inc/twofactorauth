@@ -13,7 +13,7 @@ $tfaActive = true; // for dev purposes
 
 if($tfaActive)
 {
-	e107_require_once(e_PLUGIN.'2fa/vendor/autoload.php');
+	e107_require_once(e_PLUGIN.'twofactorauth/vendor/autoload.php');
 
 	e107::getOverride()->replace('secure_image::r_image',     'tfa_module::blank');
 	e107::getOverride()->replace('secure_image::renderInput', 'tfa_module::input');
@@ -23,7 +23,7 @@ if($tfaActive)
 }
 
 
-class tfa_module
+class twofactorauth_module
 {
 	function __construct()
 	{

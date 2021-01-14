@@ -10,7 +10,7 @@
 
 if (!defined('e107_INIT')) { exit; }
 
-class tfa_event 
+class twofactorauth_event 
 {
 
 	function config()
