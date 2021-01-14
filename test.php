@@ -18,7 +18,7 @@
 require_once("../../class2.php");
 
 // Load vendor package
-e107_require_once(e_PLUGIN.'tfa/vendor/autoload.php');
+e107_require_once(e_PLUGIN.'twofactorauth/vendor/autoload.php');
 use \RobThree\Auth\TwoFactorAuth;
 
 require_once(HEADERF);
