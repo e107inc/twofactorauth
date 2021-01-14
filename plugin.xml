@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e107Plugin name="TwoFactorAuth" lan="LAN_PLUGIN_2FA_NAME" version="1.0" date="2021-01-11" compatibility="2.0" installRequired="true" >
+<e107Plugin name="TwoFactorAuth" lan="LAN_PLUGIN_TFA_NAME" version="1.0" date="2021-01-11" compatibility="2.0" installRequired="true" >
 	<author name="e107 Inc." url="https://www.e107.org" />
 	<summary>Plugin that adds 2FA functionality to e107</summary>
-	<description lan="LAN_PLUGIN_2FA_DIZ">Plugin that adds Two-Factor Authenthication (2FA) to e107</description>
+	<description lan="LAN_PLUGIN_TFA_DIZ">Plugin that adds Two-Factor Authenthication (2FA) to e107</description>
 	<category>misc</category>
 	<keywords>
 		<word>two-factor authenthication</word>
@@ -11,10 +11,10 @@
 		<word>security</word>
 	</keywords>
 	<adminLinks>
-		<link url='admin_config.php' description='Configure TwoFactorAuth' icon='images/2fa_32.png' iconSmall='images/2fa_16.png' icon128="images/2fa_128.png" primary='true'>LAN_CONFIGURE</link>
+		<link url='admin_config.php' description='Configure TwoFactorAuth' icon='images/tfa_32.png' iconSmall='images/tfa_16.png' icon128="images/tfa_128.png" primary='true'>LAN_CONFIGURE</link>
 	</adminLinks>
 	<pluginPrefs>
-		<pref name="2fa_qrcode">0</pref>
-		<pref name="2fa_debug">0</pref>
+		<pref name="tfa_qrcode">0</pref>
+		<pref name="ffa_debug">0</pref>
 	</pluginPrefs>
 </e107Plugin>
