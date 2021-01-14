@@ -1,15 +1,15 @@
 <?php
 /*
- * 2FA - an e107 plugin by Tijn Kuyper
+ * TwoFactorAuth
  *
- * Copyright (C) 2021-2022 Tijn Kuyper (http://www.tijnkuyper.nl)
+ * Copyright (C) 2021-2022 e107 Inc. (https://www.e107.org)
  * Released under the terms and conditions of the
  * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)
  *
  */
 
 // Make this page inaccessible when plugin is not installed. 
-/*if (!e107::isInstalled('2fa'))
+/*if (!e107::isInstalled('twofactorauth'))
 {
 	e107::redirect();
 	exit;

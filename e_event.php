@@ -1,14 +1,16 @@
 <?php
 /*
- * 2FA - an e107 plugin by Tijn Kuyper
+ * TwoFactorAuth
  *
- * Copyright (C) 2021-2022 Tijn Kuyper (http://www.tijnkuyper.nl)
+ * Copyright (C) 2021-2022 e107 Inc. (https://www.e107.org)
  * Released under the terms and conditions of the
  * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)
  *
  */
 
 if (!defined('e107_INIT')) { exit; }
+
+require_once(e_PLUGIN."twofactorauth/twofactorauth_class.php");
 
 class twofactorauth_event 
 {
@@ -20,8 +22,8 @@ class twofactorauth_event
 
 		// User
 		$event[] = array(
-			'name'		=> "preuserlogin", 
-			'function'	=> "init_2fa",
+			'name'		=> "user_validlogin", 
+			'function'	=> "init_tfa",
 		);
 
 		return $event;
@@ -29,10 +31,18 @@ class twofactorauth_event
 	}
 
 	
-	function init_2fa($data, $eventname) 
+	function init_tfa($data, $eventname) 
 	{
-		error_log($data);
-		return "testsfesfe";
+		//error_log($data);
+
+		$tfa = new twofactorauth();
+		$tfa->init($data);
+
+		// 1: check if user has 2FA enabled (record present in _2fa db table)
+		// 2: if enabled
+
+		// return false to proceed with login process
+		// return true to halt the login process (message?)
 	}
 
 } 
