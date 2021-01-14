@@ -29,7 +29,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '1661ffdfd686b3d4de49dfe8eaf4fed2caceb893',
+    'reference' => '1ec403ac10a188947ee4a5186507d6625cf58aca',
     'name' => '__root__',
   ),
   'versions' => 
@@ -41,7 +41,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '1661ffdfd686b3d4de49dfe8eaf4fed2caceb893',
+      'reference' => '1ec403ac10a188947ee4a5186507d6625cf58aca',
     ),
     'robthree/twofactorauth' => 
     array (
