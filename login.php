@@ -18,13 +18,17 @@ if (!e107::isInstalled('twofactorauth'))
 
 $session_user_id = e107::getSession('2fa')->get('user_id');
 
-require_once(HEADERF);
-
 // No need to access this file directly or when already logged in. 
-if(empty($session_user_id) || USER) // TODO - check if this check suffices
+if(empty($session_user_id) || USER)
 {
-	e107::getRender()->tablerender("Access denied", "No direct access permitted! Please use the login form."); // redirect to /login.php?
-	require_once(FOOTERF);
+	if(USER)
+	{
+		e107::redirect(e_BASE.'usersettings.php'); 
+	}
+	else
+	{
+		e107::redirect(e_BASE.'login.php'); 
+	}
 	exit;
 }
 
@@ -32,7 +36,7 @@ e107_require_once(e_PLUGIN.'twofactorauth/vendor/autoload.php');
 use \RobThree\Auth\TwoFactorAuth;
 $tfa_library = new TwoFactorAuth();
 
-
+require_once(HEADERF);
 $text = "";
 
 // Process TOTP code and verify against secret key
