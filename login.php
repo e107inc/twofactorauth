@@ -18,6 +18,8 @@ if (!e107::isInstalled('twofactorauth'))
 
 $session_user_id = e107::getSession('2fa')->get('user_id');
 
+require_once(HEADERF);
+
 // No need to access this file directly or when already logged in. 
 if(empty($session_user_id) || USER) // TODO - check if this check suffices
 {
@@ -30,7 +32,6 @@ e107_require_once(e_PLUGIN.'twofactorauth/vendor/autoload.php');
 use \RobThree\Auth\TwoFactorAuth;
 $tfa_library = new TwoFactorAuth();
 
-require_once(HEADERF);
 
 $text = "";
 
