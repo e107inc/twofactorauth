@@ -35,7 +35,7 @@ class twofactorauth_event
 	{
 		//error_log($data);
 
-		$tfa = new twofactorauth();
+		$tfa = new tfa_class();
 		$tfa->init($data);
 
 		// 1: check if user has 2FA enabled (record present in _2fa db table)

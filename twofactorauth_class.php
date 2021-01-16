@@ -10,7 +10,7 @@
 
 e107_require_once(e_PLUGIN.'twofactorauth/vendor/autoload.php');
 
-class twofactorauth
+class tfa_class
 {
 	
 	public $tfa_debug = false; 
@@ -48,7 +48,7 @@ class twofactorauth
 	}
 
 
-	private function tfaActivated($user_id)
+	public function tfaActivated($user_id)
 	{
 		$count = e107::getDb()->count('twofactorauth', '(*)', "user_id='{$user_id}'");
 		error_log("DB Count: ".$count);
