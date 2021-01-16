@@ -20,9 +20,6 @@ require_once("../../class2.php");
 // No need to access this file directly. 
 // TODO check if redirected from core login, else redirect to core login first. 
 
-require_once(e_PLUGIN."twofactorauth/twofactorauth_class.php");
-
-// Load and initiate vendor package
 e107_require_once(e_PLUGIN.'twofactorauth/vendor/autoload.php');
 use \RobThree\Auth\TwoFactorAuth;
 $tfa_library = new TwoFactorAuth();
@@ -48,30 +45,70 @@ if(isset($_POST['enter-totp-process']))
 	error_log("Secret key: ".$secret_key);
 
 	// Set $totp, entered by user
-	$totp = (int) $_POST['totp'];
+	$totp = $_POST['totp'];
 	error_log("TOTP entered: ".$totp);
 
-	// TOTP ENTERED 
+	// Check if the entered TOTP is correct. 
 	if($tfa_library->verifyCode($secret_key, $totp) === true) 
 	{
-		// TOTP CODE IS CORRECT
+		// TOTP is correct. 
 		error_log("TOTP IS VERIFIED");
+
+		// Continue processing login 
+		$user = e107::user($user_id); 
+		e107::getUserSession()->makeUserCookie($user);
+
+		// Trigger login event
+		$login_event_data = array(
+			'user_id' 		=> $user['user_id'], 
+			'user_name' 	=> $user['user_name'], 
+			'class_list' 	=> $user['class_list'], 
+			'remember_me' 	=> 0, 
+			'user_admin'	=> $user['user_admin'], 
+			'user_email'	=> $user['user_email'],
+		);
+
+		e107::getEvent()->trigger("login", $login_event_data);
+
+		// Get previous page the user was on before logging in. 
+		$redirect_to = e107::getSession('2fa')->get('previous_page');
+		error_log("Session Previous page: ".$redirect_to); 
+
+		// Redirect to previous page or otherwise to homepage
+		if($redirect_to)
+		{
+			e107::getRedirect()->redirect($redirect_to);
+		}
+		else
+		{
+			e107::redirect();
+		}
+	
 	}
+	// The entered TOTP is incorrect 
 	else
 	{
 		error_log("TOTP IS INVALID");
+		e107::getMessage()->addError("Invalid TOTP. Please retry."); 
 	}
 
 }
 
+$form_options = array(
+	//"size" 		=> "small", 
+	'required' 		=> 1, 
+	'placeholder'	=> "Enter 2FA code", 
+	'autofocus' 	=> true,
+);
+
 // Display form to enter TOTP 
 $text .= e107::getForm()->open('enter-totp');
-$text .= e107::getForm()->text("totp", "", 20, array( "size"=> 20, 'required'=> 1, 'placeholder'=> "Enter 2FA code"));
+$text .= e107::getForm()->text("totp", "", 80, $form_options);
 $text .= e107::getForm()->button('enter-totp-process', "Submit 2FA code");
 $text .= e107::getFOrm()->close(); 
 
 // Let's render and show it all!
-e107::getRender()->tablerender("Two Factor Authenthication", $text);
+e107::getRender()->tablerender("Two Factor Authenthication", e107::getMessage()->render().$text);
 
 
 require_once(FOOTERF);
