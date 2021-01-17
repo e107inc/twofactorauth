@@ -13,7 +13,6 @@ use \RobThree\Auth\TwoFactorAuth;
 
 class tfa_class
 {
-	
 	public $tfa_debug = true; // WIP - TODO - set to false when Admin UI work is completed and tfa_debug pref is functional
 
 	public function __construct() 
@@ -25,7 +24,6 @@ class tfa_class
 		}*/
 	}
 	
-
 	public function init($user_id)
 	{
 		// Check if 2FA is activated
@@ -57,7 +55,6 @@ class tfa_class
 		e107::redirect(e_PLUGIN_ABS."twofactorauth/login.php"); // TODO SEF URLs
 		return true; 
 	}
-
 
 	public function tfaActivated($user_id)
 	{
@@ -235,5 +232,4 @@ class tfa_class
 
 		return true; 
 	}
-
 }
