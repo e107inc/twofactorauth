@@ -40,6 +40,9 @@ if(empty($session_user_id) || USER)
 require_once(e_PLUGIN."twofactorauth/twofactorauth_class.php");
 $tfa_class = new tfa_class();
 
+// Load LAN files
+e107::lan('twofactorauth', false, true);
+
 require_once(HEADERF);
 $text = "";
 
@@ -48,15 +51,13 @@ if(isset($_POST['enter-totp-login']))
 {
 	// Retrieve user ID from session 
 	$user_id = e107::getSession('2fa')->get('user_id');
-	error_log("Session User ID: ".$user_id);
 
 	// Set $totp, entered by user
 	$totp = $_POST['totp']; // TODO check input for digits only
-	error_log("TOTP entered: ".$totp);
 
 	if(!$tfa_class->processLogin($user_id, $totp))
 	{
-		e107::getMessage()->addError("Invalid TOTP. Please retry."); 
+		e107::getMessage()->addError(LAN_2FA_INCORRECT_TOTP); 
 	}
 }
 
@@ -66,10 +67,12 @@ if(isset($_POST['enter-totp-login']))
 // $text 			.= $correct_totp; 
 
 // Display form to enter TOTP 
+e107::getMessage()->addInfo(e107::getParser()->toHTML(LAN_2FA_VERIFY_INSTRUCTIONS, true));
 $text .= $tfa_class->showTotpInputForm(); 
+$text .= "TODO - Add fallback instructions here"; // TODO
 
 // Let's render and show it all!
-e107::getRender()->tablerender("Two Factor Authenthication - Login", e107::getMessage()->render().$text);
+e107::getRender()->tablerender(LAN_2FA_TITLE." - ".LAN_VERIFY, e107::getMessage()->render().$text);
 
 require_once(FOOTERF);
 exit;

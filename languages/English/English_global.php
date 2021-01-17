@@ -1,7 +1,13 @@
 <?php
+/*
+ * TwoFactorAuth
+ *
+ * Copyright (C) 2021-2022 e107 Inc. (https://www.e107.org)
+ * Released under the terms and conditions of the
+ * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)
+ *
+ */
 
-// PLUGIN.XML
-define("LAN_PLUGIN_E2B_NAME", "TwoFactorAuth");
-define("LAN_PLUGIN_E2B_DIZ",  "Plugin that adds Two-Factor Authenthication (2FA) to e107"); 
-
-//
+// plugin.xml
+define("LAN_PLUGIN_2FA_NAME", "TwoFactorAuth");
+define("LAN_PLUGIN_2FA_DIZ",  "Plugin that adds Two-Factor Authentication (2FA) to e107"); 

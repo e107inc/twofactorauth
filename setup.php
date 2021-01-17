@@ -22,6 +22,7 @@ if(!USER)
 	e107::redirect(e_BASE.'login.php'); 
 }
 
+// Load required files (TwoFactorAuth Library and twofactorauth class)
 e107_require_once(e_PLUGIN.'twofactorauth/vendor/autoload.php');
 use \RobThree\Auth\TwoFactorAuth;
 $tfa_library = new TwoFactorAuth();
@@ -29,7 +30,11 @@ $tfa_library = new TwoFactorAuth();
 require_once(e_PLUGIN."twofactorauth/twofactorauth_class.php");
 $tfa_class = new tfa_class();
 
+// Load LAN files
+e107::lan('twofactorauth', false, true);
+
 require_once(HEADERF);
+$caption = LAN_2FA_TITLE." - ".LAN_SETTINGS; 
 $text = "";
 
 // Check if 2FA is already enabled for current user
@@ -43,10 +48,10 @@ if(!$tfaActivated && isset($_POST['enter-totp-enable']))
 
 	if($tfa_class->processSetup(USERID, $secret_key, $totp))
 	{
-		e107::getMessage()->addSuccess("2FA succesfully <strong>enabled.</strong>");
-		$text = "Go to homepage button?";
+		e107::getMessage()->addSuccess(e107::getParser()->toHTML(LAN_2FA_ENABLED, true));
+		$text = "Go to homepage button?"; // TODO
 
-		e107::getRender()->tablerender("Two Factor Authenthication - Setup", e107::getMessage()->render().$text);
+		e107::getRender()->tablerender($caption, e107::getMessage()->render().$text);
 		require_once(FOOTERF);
 		exit;  
 	}
@@ -58,10 +63,10 @@ if($tfaActivated && isset($_POST['disable-2fa']))
 
 	if($tfa_class->processDisable(USERID, $totp))
 	{
-		e107::getMessage()->addSuccess("2FA succesfully <strong>disabled</strong>.");
-		$text = "Go to homepage button?";
+		e107::getMessage()->addSuccess(e107::getParser()->toHTML(LAN_2FA_DISABLED, true));
+		$text = "Go to homepage button?"; // TODO
 
-		e107::getRender()->tablerender("Two Factor Authenthication - Setup", e107::getMessage()->render().$text);
+		e107::getRender()->tablerender($caption, e107::getMessage()->render().$text);
 		require_once(FOOTERF);
 		exit;  
 	}
@@ -75,26 +80,25 @@ if(!$tfaActivated)
 	$secret = $tfa_library->createSecret(160); 
 
 	// Sitename - TODO make it a pref?
-	$label = SITENAME;  
+	$label = SITENAME; 
 
-	$text .= 'To set up Two Factor Authenthication for your account, please scan the below QR code or enter the secret key manually in your authenticator app. <br>';
+	e107::getMessage()->addInfo(e107::getParser()->toHTML(LAN_2FA_ENABLE_INSTRUCTIONS1, true));
+
 	$text .= '<img class="center-block" src="' . $tfa_library->getQRCodeImageAsDataUri($label, $secret) . '"><br>';
-	$text .= '<span class="center-block">'.chunk_split($secret, 4, ' ').'</span><br>';
-
-	$text .= 'Please confirm the TOTP code by entering it below. When the code is correct, Two Factor Authenthication is setup for your account.<br><br>';
+	$text .= '<p class="text-center font-italic">'.chunk_split($secret, 4, ' ').'</p>';
+	$text .= '<p>'.LAN_2FA_ENABLE_INSTRUCTIONS2.'</p>';
 
 	$text .= $tfa_class->showTotpInputForm('enable', $secret); 
 
 }
-// 2FA already activated, show options to disable. 
+// 2FA is already activated, show option(s) to disable. 
 else
 {
-	$text .= "Already activated, To disable Enter TOTP."; // TODO
+	e107::getMessage()->addInfo(e107::getParser()->toHTML(LAN_2FA_DISABLE_INSTRUCTIONS, true));
 	$text .= $tfa_class->showTotpInputForm('disable'); 
-
 }
 
 // Let's render and show it all!
-e107::getRender()->tablerender("Two Factor Authenthication - Setup", e107::getMessage()->render().$text);
+e107::getRender()->tablerender($caption, e107::getMessage()->render().$text);
 require_once(FOOTERF);
 exit;
