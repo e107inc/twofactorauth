@@ -96,6 +96,10 @@ if(!$tfaActivated)
 
 	$text .= $tfa_class->showTotpInputForm('enable', $secret); 
 
+	// TEMP FOR DEV PURPOSES
+	// $correct_totp 	= $tfa_library->getCode($secret);
+	// $text 			.= $correct_totp; 
+
 }
 // 2FA is already activated, show option(s) to disable. 
 else

@@ -15,6 +15,9 @@
 	</adminLinks>
 	<pluginPrefs>
 		<pref name="tfa_qrcode">0</pref>
-		<pref name="tfa_debug">0</pref>
+		<pref name="tfa_label"></pref>
 	</pluginPrefs>
+    <extendedFields>
+        <field name="secret_key" type='EUF_TEXT' default='' active="true" />
+    </extendedFields>
 </e107Plugin>

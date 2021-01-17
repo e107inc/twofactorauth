@@ -60,15 +60,13 @@ class tfa_class
 
 	public function tfaActivated($user_id)
 	{
-		$count = e107::getDb()->count('twofactorauth', '(*)', "user_id='{$user_id}'");
 		
-		if($this->tfa_debug)
+		if(!e107::getUserExt()->get($user_id, "user_plugin_twofactorauth_secret_key"))
 		{
-			e107::getAdminLog()->addDebug(__LINE__." ".__METHOD__.": DB Count: ".$count);
-			e107::getAdminLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
+			return false;  
 		}
 		
-		return $count;
+		return true; 
 	}
 
 	public function showTotpInputForm($action = 'login', $secret = '')
@@ -122,7 +120,7 @@ class tfa_class
 		$tfa_library = new TwoFactorAuth();
 
 		// Retrieve secret_key of this user, stored in the database
-		$secret_key = e107::getDB()->retrieve('twofactorauth', 'secret_key', "user_id='{$user_id}'");
+		$secret_key = e107::getUserExt()->get($user_id, "user_plugin_twofactorauth_secret_key");
 		
 		if($this->tfa_debug)
 		{
@@ -192,20 +190,40 @@ class tfa_class
 		// Verify code
 		if($tfa_library->verifyCode($secret_key, $totp) === false) 
 		{
+			if($this->tfa_debug)
+			{
+				e107::getAdminLog()->addDebug(__LINE__." ".__METHOD__.": Entered TOTP is incorrect: ".$totp);
+				e107::getAdminLog()->addDebug(__LINE__." ".__METHOD__.": Secret Key: ".$secret_key);
+				e107::getAdminLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
+			}
+
 			e107::getMessage()->addError(LAN_2FA_INCORRECT_TOTP);
 			return false; 
 		}
 
-		// TOTP correct - insert Secret Key in database
-		$insert_data = array(
-			'user_id' 		=> USERID,
-			'secret_key'	=> $secret_key
-		);
-
-		if(!e107::getDb()->insert('twofactorauth', $insert_data))
+		if($this->tfa_debug)
 		{
+			e107::getAdminLog()->addDebug(__LINE__." ".__METHOD__.": Entered TOTP is correct. Continue adding secret key to EUF.");
+			e107::getAdminLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
+		}
+
+		if(!e107::getUserExt()->set($user_id, "user_plugin_twofactorauth_secret_key", $secret_key))
+		{
+			if($this->tfa_debug)
+			{
+				e107::getAdminLog()->addDebug(__LINE__." ".__METHOD__.": Could not add secret key to EUF");
+				e107::getAdminLog()->addDebug(e107::getDb()->getLastErrorText());
+				e107::getAdminLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
+			}
+
 			e107::getMessage()->addError(LAN_2FA_DATABASE_ERROR);
 			return false; 
+		}
+
+		if($this->tfa_debug)
+		{
+			e107::getAdminLog()->addDebug(__LINE__." ".__METHOD__.": Secret key has been added to the EUF");
+			e107::getAdminLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
 		}
 
 		return true; 
@@ -216,7 +234,7 @@ class tfa_class
 		$tfa_library = new TwoFactorAuth();
 
 		// Retrieve secret_key of this user, stored in the database
-		$secret_key = e107::getDB()->retrieve('twofactorauth', 'secret_key', "user_id='{$user_id}'");
+		$secret_key = e107::getUserExt()->get($user_id, "user_plugin_twofactorauth_secret_key");
 
 		// Verify code
 		if($tfa_library->verifyCode($secret_key, $totp) === false) 
@@ -225,9 +243,14 @@ class tfa_class
 			return false; 
 		}
 
-		// TOTP correct - delete row from database
-		if(!e107::getDb()->delete('twofactorauth', "user_id='{$user_id}'"))
+		if(!e107::getUserExt()->set($user_id, "user_plugin_twofactorauth_secret_key", ''))
 		{
+			if($this->tfa_debug)
+			{
+				e107::getAdminLog()->addDebug(__LINE__." ".__METHOD__.": Could not empty secret_key EUF field");
+				e107::getAdminLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
+			}
+
 			e107::getMessage()->addError(LAN_2FA_DATABASE_ERROR);
 			return false; 
 		}
