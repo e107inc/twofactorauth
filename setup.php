@@ -36,9 +36,11 @@ $tfa_class = new tfa_class();
 
 // Load LAN files
 e107::lan('twofactorauth', false, true);
+$caption = LAN_2FA_TITLE." - ".LAN_SETTINGS; 
+e107::title($caption);
 
 require_once(HEADERF);
-$caption = LAN_2FA_TITLE." - ".LAN_SETTINGS; 
+
 $text = "";
 
 // Check if 2FA is already enabled for current user

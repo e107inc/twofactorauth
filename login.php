@@ -51,6 +51,8 @@ $tfa_class = new tfa_class();
 
 // Load LAN files
 e107::lan('twofactorauth', false, true);
+$caption = LAN_2FA_TITLE." - ".LAN_VERIFY;
+e107::title($caption);
 
 require_once(HEADERF);
 $text = "";
@@ -81,7 +83,7 @@ $text .= $tfa_class->showTotpInputForm();
 $text .= "TODO - Add fallback instructions here"; // TODO
 
 // Let's render and show it all!
-e107::getRender()->tablerender(LAN_2FA_TITLE." - ".LAN_VERIFY, e107::getMessage()->render().$text);
+e107::getRender()->tablerender($caption, e107::getMessage()->render().$text);
 
 require_once(FOOTERF);
 exit;
