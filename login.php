@@ -62,19 +62,7 @@ if(isset($_POST['enter-totp-process']))
 
 		// Continue processing login 
 		$user = e107::user($user_id); 
-		e107::getUserSession()->makeUserCookie($user);
-
-		// Trigger login event
-		$login_event_data = array(
-			'user_id' 		=> $user['user_id'], 
-			'user_name' 	=> $user['user_name'], 
-			'class_list' 	=> $user['class_list'], 
-			'remember_me' 	=> 0, 
-			'user_admin'	=> $user['user_admin'], 
-			'user_email'	=> $user['user_email'],
-		);
-
-		e107::getEvent()->trigger("login", $login_event_data);
+		e107::getUserSession()->validLogin($user);
 
 		// Get previous page the user was on before logging in. 
 		$redirect_to = e107::getSession('2fa')->get('previous_page');
