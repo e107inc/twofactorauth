@@ -7,7 +7,11 @@
  * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)
  *
  */
-require_once("../../class2.php");
+
+if(!defined('e107_INIT'))
+{
+	require_once("../../class2.php");
+}
 
 // Make this page inaccessible when plugin is not installed. 
 if (!e107::isInstalled('twofactorauth'))
@@ -23,12 +27,17 @@ if(empty($session_user_id) || USER)
 {
 	if(USER)
 	{
-		e107::redirect(e_BASE.'usersettings.php'); 
+		//e107::redirect(e_BASE.'usersettings.php'); 
+		//$url = e107::getUrl()->create('user/myprofile/edit', array('id' => USERID));
+		$url = e107::url('twofactorauth', 'setup'); 
+		e107::redirect($url);
 	}
 	else
 	{
-		e107::redirect(e_BASE.'login.php'); 
+		$url = e_BASE.'login.php'; 
 	}
+
+	e107::redirect($url);
 	exit;
 }
 

@@ -52,7 +52,9 @@ class tfa_class
 		e107::getSession('2fa')->set('previous_page', e_REQUEST_URL); // Store the page the user is logging in from
 
 		// Redirect to page to enter TOTP
-		e107::redirect(e_PLUGIN_ABS."twofactorauth/login.php"); // TODO SEF URLs
+		//e107::redirect(e_PLUGIN_ABS."twofactorauth/login.php"); 
+		$url = e107::url('twofactorauth', 'login'); 
+		e107::redirect($url);
 		return true; 
 	}
 
