@@ -9,6 +9,7 @@
  */
 
 e107_require_once(e_PLUGIN.'twofactorauth/vendor/autoload.php');
+use \RobThree\Auth\TwoFactorAuth;
 
 class tfa_class
 {
@@ -62,4 +63,149 @@ class tfa_class
 		
 		return $count;
 	}
+
+	public function showTotpInputForm($action = 'login', $secret = '')
+	{
+		$text = '';
+
+		switch($action) 
+		{
+			case 'login':
+				$action = 'submit';
+				$button_name = "enter-totp-login";
+				break;
+			case 'enable':
+				$action = 'submit';
+				$button_name = "enter-totp-enable";
+				break; 
+			case 'disable':
+				$action = 'delete';
+				$button_name = "disable-2fa"; 
+				break; 
+			default:
+				$action = 'submit';
+				$button_name = "enter-totp-login";
+				break;
+		}
+
+		$form_options = array(
+			//"size" 		=> "small", 
+			'required' 		=> 1, 
+			'placeholder'	=> "Please enter the TOTP / 2FA code", 
+			'autofocus' 	=> true,
+		);
+
+		// Display form to enter TOTP 
+		$text .= e107::getForm()->open('enter-totp');
+		$text .= e107::getForm()->text("totp", "", 80, $form_options);
+		
+		if(!empty($secret))
+		{
+			$text .= e107::getForm()->hidden("secret_key", $secret);
+		}
+
+		$text .= e107::getForm()->button($button_name, LAN_SUBMIT, $action);
+		$text .= e107::getForm()->close(); 
+
+		return $text; 
+	}
+
+	public function processLogin($user_id = USERID, $totp)
+	{
+		$tfa_library = new TwoFactorAuth();
+
+		// Retrieve secret_key of this user, stored in the database
+		$secret_key = e107::getDB()->retrieve('twofactorauth', 'secret_key', "user_id='{$user_id}'");
+		error_log("Secret key: ".$secret_key);
+
+		// Check if the entered TOTP is correct. 
+		if($tfa_library->verifyCode($secret_key, $totp) === true) 
+		{
+			// TOTP is correct. 
+			error_log("TOTP IS VERIFIED");
+
+			// Continue processing login 
+			$user = e107::user($user_id);
+			$ulogin = new userlogin();
+			$ulogin->validLogin($user);
+
+			//e107::getUser()->validLogin($user);
+			//e107::getUserSession()->makeUserCookie($user);
+
+			// Get previous page the user was on before logging in. 
+			$redirect_to = e107::getSession('2fa')->get('previous_page');
+			error_log("Session Previous page: ".$redirect_to); 
+
+			// Clear session data
+			e107::getSession('2fa')->clearData();
+
+			// Redirect to previous page or otherwise to homepage
+			if($redirect_to)
+			{
+				e107::getRedirect()->redirect($redirect_to);
+			}
+			else
+			{
+				e107::redirect();
+			}
+		
+		}
+		// The entered TOTP is incorrect 
+		else
+		{
+			error_log("TOTP IS INVALID");
+			return false; 
+		}
+	}
+
+	public function processSetup($user_id = USERID, $secret_key, $totp)
+	{
+		$tfa_library = new TwoFactorAuth();
+
+		// Verify code
+		if($tfa_library->verifyCode($secret_key, $totp) === false) 
+		{
+			e107::getMessage()->addError("TOTP incorrect! Try again");
+			return false; 
+		}
+
+		// TOTP correct - insert Secret Key in database
+		$insert_data = array(
+			'user_id' 		=> USERID,
+			'secret_key'	=> $secret_key
+		);
+
+		if(!e107::getDb()->insert('twofactorauth', $insert_data))
+		{
+			e107::getMessage()->addError("Issue with adding to database");
+			return false; 
+		}
+
+		return true; 
+	}
+
+	public function processDisable($user_id = USERID, $totp)
+	{
+		$tfa_library = new TwoFactorAuth();
+
+		// Retrieve secret_key of this user, stored in the database
+		$secret_key = e107::getDB()->retrieve('twofactorauth', 'secret_key', "user_id='{$user_id}'");
+
+		// Verify code
+		if($tfa_library->verifyCode($secret_key, $totp) === false) 
+		{
+			e107::getMessage()->addError("TOTP incorrect! Try again");
+			return false; 
+		}
+
+		// TOTP correct - delete row from database
+		if(!e107::getDb()->delete('twofactorauth', "user_id='{$user_id}'"))
+		{
+			e107::getMessage()->addError("Issue with deleting from database");
+			return false; 
+		}
+
+		return true; 
+	}
+
 }
