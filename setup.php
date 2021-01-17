@@ -52,7 +52,7 @@ if(!$tfaActivated && isset($_POST['enter-totp-enable']))
 	$secret_key = $_POST['secret_key']; // TODO - add some validation?
 	$totp 		= $_POST['totp']; // TODO - add some validation?
 
-	if($tfa_class->processSetup(USERID, $secret_key, $totp))
+	if($tfa_class->processEnable(USERID, $secret_key, $totp))
 	{
 		e107::getMessage()->addSuccess(e107::getParser()->toHTML(LAN_2FA_ENABLED, true));
 		$text = "Go to homepage button?"; // TODO
@@ -63,7 +63,7 @@ if(!$tfaActivated && isset($_POST['enter-totp-enable']))
 	}
 }
 
-if($tfaActivated && isset($_POST['disable-2fa']))
+if($tfaActivated && isset($_POST['enter-totp-disable']))
 {
 	$totp = $_POST['totp']; // TODO - add some validation?
 

@@ -87,7 +87,7 @@ class tfa_class
 				break; 
 			case 'disable':
 				$action = 'delete';
-				$button_name = "disable-2fa"; 
+				$button_name = "enter-totp-disable"; 
 				break; 
 			default:
 				$action = 'submit';
@@ -185,7 +185,7 @@ class tfa_class
 		}
 	}
 
-	public function processSetup($user_id = USERID, $secret_key, $totp)
+	public function processEnable($user_id = USERID, $secret_key, $totp)
 	{
 		$tfa_library = new TwoFactorAuth();
 
