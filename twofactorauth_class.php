@@ -13,15 +13,15 @@ use \RobThree\Auth\TwoFactorAuth;
 
 class tfa_class
 {
-	public $tfa_debug = true; // WIP - TODO - set to false when Admin UI work is completed and tfa_debug pref is functional
+	public $tfa_debug = false;
 
 	public function __construct() 
 	{
-		// Check debug mode (not used yet)
-		/*if(e107::getPlugPref('twofactorauth', 'tfa_debug') == true) 
+		// Check debug mode
+		if(e107::getPlugPref('twofactorauth', 'tfa_debug')) 
 		{
 			$this->tfa_debug = true;
-		}*/
+		}
 	}
 	
 	public function init($user_id)
