@@ -80,7 +80,7 @@ if(isset($_POST['enter-totp-login']))
 // Display form to enter TOTP 
 e107::getMessage()->addInfo(e107::getParser()->toHTML(LAN_2FA_VERIFY_INSTRUCTIONS, true));
 $text .= $tfa_class->showTotpInputForm(); 
-$text .= "TODO - Add fallback instructions here"; // TODO
+$text .= '<p class="font-italic">'.LAN_2FA_FALLBACK_INSTRUCTIONS.'</p>';
 
 // Let's render and show it all!
 e107::getRender()->tablerender($caption, e107::getMessage()->render().$text);
