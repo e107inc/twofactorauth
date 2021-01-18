@@ -15,7 +15,7 @@ if (!getperms('P'))
 	exit;
 }
 
-e107::lan('twofactorauth',true);
+e107::lan('twofactorauth', true, true);
 
 class twofactorauth_adminArea extends e_admin_dispatcher
 {
@@ -101,7 +101,7 @@ class twofactorauth_ui extends e_admin_ui
 				'thclass' 		=> 'left',
 			),
 			'user_name' => array( 
-				'title' 		=> 'Username',  
+				'title' 		=> LAN_NAME,  
 				'type' 			=> 'text',  
 				'noedit'		=> true,
 				'data' 			=> 'str',  
@@ -131,19 +131,19 @@ class twofactorauth_ui extends e_admin_ui
 	//	protected $preftabs        = array('General', 'Other' );
 		protected $prefs = array(
 			'tfa_debug' => array(
-				'title'			=> 'Debug mode', 
+				'title'			=> LAN_2FA_PREFS_DEBUG, 
 				'tab'			=> 0, 
 				'type'			=> 'boolean', 
-				'data' 			=> 'str', 
-				'help'			=> '', 
+				'data' 			=> 'int', 
+				'help'			=> LAN_2FA_PREFS_DEBUG_HELP, 
 				'writeParms'	=> array()
 			),
 			'tfa_label' => array(
-				'title'			=> 'Website label', 
+				'title'			=> LAN_2FA_PREFS_WEBLABEL, 
 				'tab'			=> 0,
 				'type'			=> 'text', 
 				'data' 			=> 'str', 
-				'help'			=> 'Defaults to SITENAME', 
+				'help'			=> LAN_2FA_PREFS_WEBLABEL_HELP, 
 				'writeParms' 	=> array()
 			),
 		); 
@@ -172,21 +172,27 @@ class twofactorauth_ui extends e_admin_ui
 
 		function disableTfa($user_id)
 		{
+			// Just checking
 			if(!e107::getUserExt()->get($user_id, "user_plugin_twofactorauth_secret_key"))
 			{
-				e107::getMessage()->addError("Two Factor Authentication is already disabled for User ID ".$user_id."... Weird!");
+				// Should not happen, but secret_key is already empty?
+				$message = e107::getParser()->lanVars(LAN_2FA_DISABLE_ALREADY_DISABLED, $user_id);
+				e107::getMessage()->addError($message); 
 				return; 
 			}
 
+			// Delete the secret_key from the EUF
 			if(e107::getUserExt()->set($user_id, "user_plugin_twofactorauth_secret_key", $secret_key))
 			{
-				// Delete 
-				e107::getMessage()->addSuccess("Two Factor Authentication has been disabled for User ID ".$user_id);
+				$message = e107::getParser()->lanVars(LAN_2FA_DISABLE_SUCCESS, $user_id);
+				e107::getMessage()->addSuccess($message);
 				return; 
 			}
+			// Error deleting the secret key from EUF 
 			else
 			{
-				e107::getMessage()->addError("Could not disable Two Factor Authentication for User ID ".$user_id);
+				$message = e107::getParser()->lanVars(LAN_2FA_DISABLE_ERROR, $user_id);
+				e107::getMessage()->addError($message);
 			}			
 		}
 
@@ -226,19 +232,29 @@ class twofactorauth_ui extends e_admin_ui
 			// do something		
 		}		
 		
-		// left-panel help menu area. (replaces e_help.php used in old plugins)
+		// left-panel help menu area
 		public function renderHelp()
 		{
+			$text = '';
 			$caption = LAN_HELP;
 
 			if($this->getAction() == "list")
 			{
-				$text = 'This overview shows which users have activated 2FA for their account';
+				$text .= '<strong>'.LAN_MANAGE.'</strong>'; 
+				$text .= '<p>'.LAN_2FA_HELP_MANAGE.'</p>'; 
+
+				$text .= '<strong>'.LAN_DISABLE.'</strong>'; 
+				$text .= '<p>'.LAN_2FA_HELP_DISABLE1.'</p>';
+				$text .= '<p>'.LAN_2FA_HELP_DISABLE2.'</p>';
 			}
 
 			if($this->getAction() == "prefs")
 			{
-				$text = 'Explain the prefs here';
+				$text .= '<strong>'.LAN_2FA_PREFS_DEBUG.'</strong>'; 
+				$text .= '<p>'.LAN_2FA_PREFS_DEBUG_HELP.'</p>';
+
+				$text .= '<strong>'.LAN_2FA_PREFS_WEBLABEL.'</strong>'; 
+				$text .= '<p>'.LAN_2FA_PREFS_WEBLABEL_HELP.'</p>';
 			}
 			
 
