@@ -33,8 +33,12 @@ class twofactorauth_event
 	
 	function init_tfa($data, $eventname) 
 	{
-		$tfa = new tfa_class();
-		$tfa->init($data);
+		// Check to see if Two Factor Authentication is active for all users
+		if(e107::getPlugPref('twofactorauth', 'tfa_active'))
+	    {
+			$tfa = new tfa_class();
+			$tfa->init($data);
+		}
 	}
 
 } 

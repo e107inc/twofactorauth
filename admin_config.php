@@ -130,6 +130,14 @@ class twofactorauth_ui extends e_admin_ui
 		
 	//	protected $preftabs        = array('General', 'Other' );
 		protected $prefs = array(
+			'tfa_active' => array(
+				'title'			=> LAN_2FA_PREFS_ACTIVE, 
+				'tab'			=> 0, 
+				'type'			=> 'boolean', 
+				'data' 			=> 'int', 
+				'help'			=> LAN_2FA_PREFS_ACTIVE_HELP, 
+				'writeParms'	=> array()
+			),
 			'tfa_debug' => array(
 				'title'			=> LAN_2FA_PREFS_DEBUG, 
 				'tab'			=> 0, 
@@ -250,6 +258,10 @@ class twofactorauth_ui extends e_admin_ui
 
 			if($this->getAction() == "prefs")
 			{
+
+				$text .= '<strong>'.LAN_2FA_PREFS_ACTIVE.'</strong>'; 
+				$text .= '<p>'.LAN_2FA_PREFS_ACTIVE_HELP.'</p>';
+				
 				$text .= '<strong>'.LAN_2FA_PREFS_DEBUG.'</strong>'; 
 				$text .= '<p>'.LAN_2FA_PREFS_DEBUG_HELP.'</p>';
 

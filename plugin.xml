@@ -14,7 +14,8 @@
 		<link url='admin_config.php' description='Configure TwoFactorAuth' icon='images/tfa_32.png' iconSmall='images/tfa_16.png' icon128="images/tfa_128.png" primary='true'>LAN_CONFIGURE</link>
 	</adminLinks>
 	<pluginPrefs>
-		<pref name="tfa_qrcode">0</pref>
+		<pref name="tfa_active">1</pref>
+		<pref name="tfa_debug">0</pref>
 		<pref name="tfa_label"></pref>
 	</pluginPrefs>
     <extendedFields>

@@ -9,6 +9,9 @@
  */
 
 // Prefs
+define("LAN_2FA_PREFS_ACTIVE", 			"TFA Active");
+define("LAN_2FA_PREFS_ACTIVE_HELP", 	"Allows to Two Factor Authentication on or off for all users.");
+
 define("LAN_2FA_PREFS_DEBUG", 			"TFA Debug Mode");
 define("LAN_2FA_PREFS_DEBUG_HELP", 		"When enabled, log files are generated which can help debug issues.");
 
