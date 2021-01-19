@@ -64,7 +64,8 @@ if(isset($_POST['enter-totp-login']))
 	$user_id = e107::getSession('2fa')->get('user_id');
 
 	// Set $totp, entered by user
-	$totp = $_POST['totp']; // TODO check input for digits only
+	$totp = intval($_POST['totp']);
+	$totp = (string) $totp;
 
 	if(!$tfa_class->processLogin($user_id, $totp))
 	{

@@ -50,8 +50,10 @@ $tfaActivated = $tfa_class->tfaActivated(USERID) ? true : false;
 // Setting up 2FA
 if(!$tfaActivated && isset($_POST['enter-totp-enable']))
 {
-	$secret_key = $_POST['secret_key']; // TODO - add some validation?
-	$totp 		= $_POST['totp']; // TODO - add some validation?
+	$secret_key = (string) $_POST['secret_key']; 
+	
+	$totp = intval($_POST['totp']);
+	$totp = (string) $totp;
 
 	if($tfa_class->processEnable(USERID, $secret_key, $totp))
 	{
@@ -66,7 +68,8 @@ if(!$tfaActivated && isset($_POST['enter-totp-enable']))
 
 if($tfaActivated && isset($_POST['enter-totp-disable']))
 {
-	$totp = $_POST['totp']; // TODO - add some validation?
+	$totp = intval($_POST['totp']);
+	$totp = (string) $totp;
 
 	if($tfa_class->processDisable(USERID, $totp))
 	{
