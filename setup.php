@@ -42,6 +42,7 @@ e107::title($caption);
 require_once(HEADERF);
 
 $text = "";
+$usersettings_url = e107::getUrl()->create('user/myprofile/edit', array('id' => USERID));
 
 // Check if 2FA is already enabled for current user
 $tfaActivated = $tfa_class->tfaActivated(USERID) ? true : false; 
@@ -55,7 +56,7 @@ if(!$tfaActivated && isset($_POST['enter-totp-enable']))
 	if($tfa_class->processEnable(USERID, $secret_key, $totp))
 	{
 		e107::getMessage()->addSuccess(e107::getParser()->toHTML(LAN_2FA_ENABLED, true));
-		$text = "Go to homepage button?"; // TODO
+		$text = "<a class='btn btn-primary' href='".$usersettings_url."'>".LAN_2FA_RETURN_USERSETTINGS."</a>.";
 
 		e107::getRender()->tablerender($caption, e107::getMessage()->render().$text);
 		require_once(FOOTERF);
@@ -70,7 +71,7 @@ if($tfaActivated && isset($_POST['enter-totp-disable']))
 	if($tfa_class->processDisable(USERID, $totp))
 	{
 		e107::getMessage()->addSuccess(e107::getParser()->toHTML(LAN_2FA_DISABLED, true));
-		$text = "Go to homepage button?"; // TODO
+		$text = "<a class='btn btn-primary' href='".$usersettings_url."'>".LAN_2FA_RETURN_USERSETTINGS."</a>.";
 
 		e107::getRender()->tablerender($caption, e107::getMessage()->render().$text);
 		require_once(FOOTERF);

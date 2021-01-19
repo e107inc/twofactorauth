@@ -29,3 +29,5 @@ define("LAN_2FA_DISABLE_INSTRUCTIONS", 	"To [b]disable[/b] Two Factor Authenthic
 
 define("LAN_2FA_ENABLED", 				"Two-factor authenthication has been succesfully [b]enabled[/b]"); 
 define("LAN_2FA_DISABLED", 				"Two-factor authenthication has been succesfully [b]disabled[/b]"); 
+
+define("LAN_2FA_RETURN_USERSETTINGS", 	"Return to settings");
