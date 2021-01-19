@@ -85,8 +85,13 @@ if(!$tfaActivated)
 	// Generate Secret Key 
 	$secret = $tfa_library->createSecret(160); 
 
-	// Sitename - TODO make it a pref?
-	$label = e107::getPlugPref('twofactorauth', 'tfa_label', SITENAME);
+	// Setup label - defaults to SITENAME
+	$label = e107::getPlugPref('twofactorauth', 'tfa_label');
+
+	if(empty($label))
+	{
+		$label = SITENAME;
+	}
 
 	e107::getMessage()->addInfo(e107::getParser()->toHTML(LAN_2FA_ENABLE_INSTRUCTIONS1, true));
 
