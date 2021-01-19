@@ -8,25 +8,25 @@ This plugin adds Two Factor Authentication (2FA). It can be used in combination 
 It makes use of the [TwoFactorAuth Library by RobThree](https://github.com/RobThree/TwoFactorAuth).
 
 ### Current features
-- 2FA support for **User** login.
-- Admins can disable 2FA for a specific user
-- Ability to change "Label", used in the authentication application. 
+* 2FA support for **User** login.
+* Admins can disable 2FA for a specific user
+* Ability to change "Label", used in the authentication application. 
 
 ### Features planned for future releases:
-- 2FA support for **Admin** login. 
-- Other QR Code providers
+* 2FA support for **Admin** login. 
+* Other QR Code providers
 
 ## Requirements ##
 * e107 v2.3.1+ (latest)
-- cURL extension
+* cURL extension
 
 ## Recommended authenticator applications
-- [Authy](https://authy.com/) 
-- [Google Authenticator](https://support.google.com/accounts/answer/1066447)
-- [Duo Mobile](https://duo.com/product/multi-factor-authentication-mfa/duo-mobile-app)
-- [Microsoft Authenticator](https://www.microsoft.com/en-us/p/microsoft-authenticator)
-- [FreeOTP](https://freeotp.github.io/)
-- [Yandex.Key](https://yandex.com/support/passport/authorization/twofa.html)
+* [Authy](https://authy.com/) 
+* [Google Authenticator](https://support.google.com/accounts/answer/1066447)
+* [Duo Mobile](https://duo.com/product/multi-factor-authentication-mfa/duo-mobile-app)
+* [Microsoft Authenticator](https://www.microsoft.com/en-us/p/microsoft-authenticator)
+* [FreeOTP](https://freeotp.github.io/)
+* [Yandex.Key](https://yandex.com/support/passport/authorization/twofa.html)
 
 ## How to get help? ##
 * First, **search the documentation** [here](#) - *documentation will be added asap*
