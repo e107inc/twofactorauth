@@ -190,7 +190,7 @@ class twofactorauth_ui extends e_admin_ui
 			}
 
 			// Delete the secret_key from the EUF
-			if(e107::getUserExt()->set($user_id, "user_plugin_twofactorauth_secret_key", $secret_key))
+			if(e107::getUserExt()->set($user_id, "user_plugin_twofactorauth_secret_key", null))
 			{
 				$message = e107::getParser()->lanVars(LAN_2FA_DISABLE_SUCCESS, $user_id);
 				e107::getMessage()->addSuccess($message);
@@ -290,7 +290,7 @@ class twofactorauth_form_ui extends e_admin_form_ui
 {
 	
 	// Override the default Options field. 
-	function options($parms, $value, $id, $attributes)
+	function options($parms, $value, $id, $options)
 	{
 		$action = $this->getController()->getAction();
 
