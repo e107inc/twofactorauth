@@ -17,14 +17,16 @@ class twofactorauth_url
 		$config = array();
 
 		$config['login'] = array(
-			'regex'			=> '^tfa/login/?$',
-			'sef'			=> 'tfa/login',
+			'alias'         => 'tfa',
+			'regex'			=> '^{alias}\/login\/?$',
+			'sef'			=> '{alias}/login',
 			'redirect'		=> '{e_PLUGIN}twofactorauth/login.php',
 		);
 
 		$config['setup'] = array(
-			'regex'			=> '^tfa/setup/?$',
-			'sef'			=> 'tfa/setup',
+			'alias'         => 'tfa',
+			'regex'			=> '^{alias}\/setup\/?$',
+			'sef'			=> '{alias}/setup',
 			'redirect'		=> '{e_PLUGIN}twofactorauth/setup.php',
 		);
 
