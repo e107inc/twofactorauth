@@ -1,16 +1,13 @@
 # Two-Factor Authenthication (2FA) for e107 
 
-**This plugin is currently in development and should not be used on a production environment or live website yet.**
-
-## Features
 This plugin adds Two Factor Authentication (2FA) to an e107 installation. It can be used in combination with any [authentication app](https://github.com/e107inc/twofactorauth/#recommended-authenticator-applications) on your (mobile) device. 
 
 It makes use of the [TwoFactorAuth Library by RobThree](https://github.com/RobThree/TwoFactorAuth).
-
+## Features
 ### Current features
 * 2FA support for login (both user and admin)
 * Admins can disable 2FA for a specific user (as fallback)
-* Ability to change "Label" (used in the authentication application) 
+* Ability to change "Label" (used in the authentication application) in preferences
 
 ### Features planned for future releases: 
 * See [Issue tracker](https://github.com/e107inc/twofactorauth/issues?q=is%3Aopen+is%3Aissue+label%3A%22status%3A+planned%22+label%3A%22type%3A+enhancement%22) 
