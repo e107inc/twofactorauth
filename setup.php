@@ -97,7 +97,13 @@ if(!$tfaActivated)
 		$label = SITENAME;
 	}
 
-	e107::getMessage()->addInfo(e107::getParser()->toHTML(LAN_2FA_ENABLE_INSTRUCTIONS1, true));
+	$instructions1 = str_replace(
+		array("[", "]"), 
+		array("<strong><a href='https://github.com/e107inc/twofactorauth#recommended-authenticator-applications' target='_blank'>", "</a></strong>"), 
+		LAN_2FA_ENABLE_INSTRUCTIONS1
+	);
+	
+	e107::getMessage()->addInfo($instructions1);
 
 	$text .= '<img class="center-block" src="' . $tfa_library->getQRCodeImageAsDataUri($label, $secret) . '"><br>';
 	$text .= '<p class="text-center font-italic">'.chunk_split($secret, 4, ' ').'</p>';

@@ -22,7 +22,7 @@ define("LAN_2FA_DATABASE_ERROR", 			"Unknown issue occurred related to the datab
 
 
 // Setup
-define("LAN_2FA_ENABLE_INSTRUCTIONS1", 	"To set up Two Factor Authenthication for your account, please scan the below QR code or enter the secret key manually in your authenticator app on your device.");
+define("LAN_2FA_ENABLE_INSTRUCTIONS1", 	"To set up Two Factor Authenthication for your account, please use the [authenticator app] on your device to scan the QR code below or to enter the secret key manually."); // Do not remove the brackets [...] - they are used for links
 define("LAN_2FA_ENABLE_INSTRUCTIONS2", "To confirm your authenticator app is returning the correct 6-digit code, please verify the code by entering it below. After verification, Two Factor Authentication is setup for your account.");
 
 define("LAN_2FA_DISABLE_INSTRUCTIONS", 	"To [b]disable[/b] Two Factor Authenthication for your account, please enter your 6-digit code to verify.");
