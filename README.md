@@ -36,10 +36,7 @@ It makes use of the [TwoFactorAuth Library by RobThree](https://github.com/RobTh
 * Use the [issue tracker](https://github.com/e107inc/twofactorauth/issues)
 
 ## Translation ##
-*In case you want to translate this plugin to your language, please [fork this Github repository](https://help.github.com/articles/fork-a-repo) and submit a pull-request.
-
-More information on pull-requests can be found [here](https://help.github.com/articles/using-pull-requests) and [here](http://guides.github.com/overviews/flow/).
-I also recommend using the [Github for Desktop](https://desktop.github.com/) tools.
+* In case you want to translate this plugin to your language, please [fork this Github repository](https://help.github.com/articles/fork-a-repo) and submit a [pull-request](https://help.github.com/articles/using-pull-requests).
 
 ## Changelog ##
 See the **releases** section [here](https://github.com/e107inc/twofactorauth/releases)
