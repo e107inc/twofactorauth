@@ -300,7 +300,7 @@ class twofactorauth_form_ui extends e_admin_form_ui
 
 			$text = "<div class='btn-group pull-right'>";
 			//$text .= $this->renderValue('options', $value, $attributes, $id);
-			$text .= $this->submit_image('disable_tfa['.$id.']', 1, 'delete', LAN_DISABLE, $options);
+			$text .= $this->submit_image('disable_tfa['.$id.']', 1, 'delete', LAN_DISABLE);
 			$text .= "</div>";
 
 			return $text;
