@@ -171,6 +171,30 @@ class twofactorauth_ui extends e_admin_ui
 	            e107::getMessage()->addWarning("TwoFactorAuth debug mode is <strong>enabled</strong>!"); // DO NOT TRANSLATE
 	        }
 
+	        // Check old files
+	        $old_files = array(
+				'login.php',
+			);
+
+			foreach($old_files as $old_file)
+			{
+				if(file_exists($old_file))
+				{
+					@unlink($old_file);
+
+					if(file_exists($old_file))
+					{
+						e107::getMessage()->addDebug("Please remove the following outdated file: ".$old_file); // DO NOT TRANSLATE
+					}
+					else
+					{
+						e107::getMessage()->addSuccess("Outdated file removed: ".$old_file);
+						e107::getPlug()->clearCache()->buildAddonPrefLists();
+					}
+				}
+			}
+
+			// Process disabling 2FA for a specific user
 	        if(vartrue($_POST['disable_tfa']))
 			{
 				$user_id = key($_POST['disable_tfa']);

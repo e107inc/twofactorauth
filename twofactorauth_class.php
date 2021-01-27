@@ -43,7 +43,7 @@ class tfa_class
 		if($this->tfa_debug)
 		{
 			e107::getAdminLog()->addDebug(__LINE__." ".__METHOD__.": 2FA is activated for User ID ".$user_id);
-			e107::getAdminLog()->addDebug(__LINE__." ".__METHOD__.": User will need to enter digits. Redirect to tfa/login");
+			e107::getAdminLog()->addDebug(__LINE__." ".__METHOD__.": User will need to enter digits. Redirect to tfa/verify");
 			e107::getAdminLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
 		}
 
@@ -51,11 +51,11 @@ class tfa_class
 		e107::getSession('2fa')->set('user_id', $user_id); // Store User ID
 		e107::getSession('2fa')->set('previous_page', e_REQUEST_URL); // Store the page the user is logging in from
 
-		// Redirect to page to enter TOTP
-		//e107::redirect(e_PLUGIN_ABS."twofactorauth/login.php"); 
-		$url = e107::url('twofactorauth', 'login'); 
+		// Redirect to page to enter TOTP 
+		$url = e107::url('twofactorauth', 'verify'); 
 		e107::redirect($url);
-		return true; 
+		return true;
+
 	}
 
 	public function tfaActivated($user_id)

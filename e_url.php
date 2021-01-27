@@ -16,11 +16,11 @@ class twofactorauth_url
 	{
 		$config = array();
 
-		$config['login'] = array(
+		$config['verify'] = array(
 			'alias'         => 'tfa',
-			'regex'			=> '^{alias}\/login\/?$',
-			'sef'			=> '{alias}/login',
-			'redirect'		=> '{e_PLUGIN}twofactorauth/login.php',
+			'regex'			=> '^{alias}\/verify\/?$',
+			'sef'			=> '{alias}/verify',
+			'redirect'		=> '{e_PLUGIN}twofactorauth/verify.php',
 		);
 
 		$config['setup'] = array(
