@@ -24,8 +24,22 @@ class tfa_class
 		}
 	}
 	
-	public function init($user_id)
+	public function init($data, $eventname)
 	{
+		// Login
+		if($eventname == 'user_validlogin')
+		{
+			$user_id = $data; 
+		}
+		// FPW
+		else
+		{
+			// error_log($eventname);
+			// error_log(print_r($data, true));
+			// return false;
+			$user_id = $data["user_id"];
+		}
+
 		// Check if 2FA is activated
 		if($this->tfaActivated($user_id) == false)
 		{
@@ -79,6 +93,10 @@ class tfa_class
 				$action = 'submit';
 				$button_name = "enter-totp-login";
 				break;
+			case 'fpw':
+				$action = 'submit';
+				$button_name = "enter-totp-fpw";
+				break;
 			case 'enable':
 				$action = 'submit';
 				$button_name = "enter-totp-enable";
@@ -115,7 +133,7 @@ class tfa_class
 		return $text; 
 	}
 
-	public function processLogin($user_id = USERID, $totp)
+	private function verifyTotp($user_id = USERID, $totp)
 	{
 		$tfa_library = new TwoFactorAuth();
 
@@ -139,14 +157,28 @@ class tfa_class
 				e107::getAdminLog()->addDebug(__LINE__." ".__METHOD__.": The TOTP code that was entered, is correct");
 				e107::getAdminLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
 			}
+			return true;
+		}
+		else
+		{
+			if($this->tfa_debug)
+			{
+				e107::getAdminLog()->addDebug(__LINE__." ".__METHOD__.": The TOTP code that was entered, is INCORRECT");
+				e107::getAdminLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
+			}
+			return false; 
+		}
 
+	}
+
+	public function processLogin($user_id = USERID, $totp)
+	{
+		if($this->verifyTotp($user_id, $totp))
+		{
 			// Continue processing login 
 			$user = e107::user($user_id);
 			$ulogin = new userlogin();
 			$ulogin->validLogin($user);
-
-			//e107::getUser()->validLogin($user);
-			//e107::getUserSession()->makeUserCookie($user);
 
 			// Get previous page the user was on before logging in. 
 			$redirect_to = e107::getSession('2fa')->get('previous_page');
@@ -174,12 +206,20 @@ class tfa_class
 		// The entered TOTP is INCORRECT
 		else
 		{
-			if($this->tfa_debug)
-			{
-				e107::getAdminLog()->addDebug(__LINE__." ".__METHOD__.": The TOTP code that was entered, is INCORRECT");
-				e107::getAdminLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
-			}
 			return false; 
+		}
+	}
+
+	public function processFpw($user_id = USERID, $totp)
+	{
+		if($this->verifyTotp($user_id, $totp))
+		{
+			return true; 
+		}
+		// The entered TOTP is INCORRECT
+		else
+		{
+			return LAN_2FA_INCORRECT_TOTP; 
 		}
 	}
 

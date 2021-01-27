@@ -20,7 +20,8 @@ if (!e107::isInstalled('twofactorauth'))
 	exit;
 }
 
-$session_user_id = e107::getSession('2fa')->get('user_id');
+$session_user_id 		= e107::getSession('2fa')->get('user_id');
+$session_previous_page 	= e107::getSession('2fa')->get('previous_page');
 
 // No need to access this file directly or when already logged in. 
 if(empty($session_user_id) || USER)
@@ -39,6 +40,16 @@ if(empty($session_user_id) || USER)
 
 	e107::redirect($url);
 	exit;
+}
+
+// Check action
+if(strpos($session_previous_page, 'fpw.php') !== false) // PHP 8 - str_contains()
+{
+	$action = 'fpw';
+}
+else
+{
+	$action = 'login';
 }
 
 // Load required files (TwoFactorAuth Library and twofactorauth class)
@@ -73,6 +84,38 @@ if(isset($_POST['enter-totp-login']))
 	}
 }
 
+// Process TOTP code and verify against secret key
+if(isset($_POST))
+{
+	// Retrieve user ID from session 
+	$user_id = e107::getSession('2fa')->get('user_id');
+
+	// Set $totp, entered by user
+	$totp = intval($_POST['totp']);
+	$totp = (string) $totp;
+
+	if(isset($_POST['enter-totp-login']))
+	{
+		if(!$tfa_class->processLogin($user_id, $totp))
+		{
+			e107::getMessage()->addError(LAN_2FA_INCORRECT_TOTP); 
+		}
+	}
+
+	if(isset($_POST['enter-totp-fpw']))
+	{
+		if(!$tfa_class->processFpw($user_id, $totp))
+		{
+			e107::getMessage()->addError(LAN_2FA_INCORRECT_TOTP); 
+		}
+		else
+		{
+			return true; 
+		}
+	}
+	
+}
+
 // TEMP FOR DEV PURPOSES
 // $secret 		= e107::getDB()->retrieve('twofactorauth', 'secret_key', "user_id='1'");
 // $correct_totp 	= $tfa_library->getCode($secret);
@@ -80,7 +123,7 @@ if(isset($_POST['enter-totp-login']))
 
 // Display form to enter TOTP 
 e107::getMessage()->addInfo(e107::getParser()->toHTML(LAN_2FA_VERIFY_INSTRUCTIONS, true));
-$text .= $tfa_class->showTotpInputForm(); 
+$text .= $tfa_class->showTotpInputForm($action); 
 $text .= '<p class="font-italic">'.LAN_2FA_FALLBACK_INSTRUCTIONS.'</p>';
 
 // Let's render and show it all!

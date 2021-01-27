@@ -20,9 +20,15 @@ class twofactorauth_event
 
 		$event = array();
 
-		// User
+		// User login
 		$event[] = array(
 			'name'		=> "user_validlogin", 
+			'function'	=> "init_tfa",
+		);
+
+		// User has submitted Forgotten Password form
+		$event[] = array(
+			'name'		=> "user_fpw_request", 
 			'function'	=> "init_tfa",
 		);
 
@@ -37,7 +43,7 @@ class twofactorauth_event
 		if(e107::getPlugPref('twofactorauth', 'tfa_active'))
 	    {
 			$tfa = new tfa_class();
-			$tfa->init($data);
+			$tfa->init($data, $eventname);
 		}
 	}
 
