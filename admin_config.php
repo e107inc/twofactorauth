@@ -90,7 +90,7 @@ class twofactorauth_ui extends e_admin_ui
 			),
 			'user_id' => array(
 				'title' 		=> LAN_ID,  
-				'type' 			=> '',  
+				'type' 			=> 'number',  
 				'data' 			=> 'int',  
 				'width' 		=> '5%',  
 				'readonly' 		=> true,  
