@@ -149,7 +149,7 @@ class tfa_class
 		}
 
 		// Check if the entered TOTP is correct. 
-		if($tfa_library->verifyCode($secret_key, $totp) === true) 
+		if($tfa_library->verifyCode($secret_key, $totp, 2) === true) 
 		{
 			// TOTP is correct. 
 			if($this->tfa_debug)
@@ -228,7 +228,7 @@ class tfa_class
 		$tfa_library = new TwoFactorAuth();
 
 		// Verify code
-		if($tfa_library->verifyCode($secret_key, $totp) === false) 
+		if($tfa_library->verifyCode($secret_key, $totp, 2) === false) 
 		{
 			if($this->tfa_debug)
 			{
@@ -277,7 +277,7 @@ class tfa_class
 		$secret_key = e107::getUserExt()->get($user_id, "user_plugin_twofactorauth_secret_key");
 
 		// Verify code
-		if($tfa_library->verifyCode($secret_key, $totp) === false) 
+		if($tfa_library->verifyCode($secret_key, $totp, 2) === false) 
 		{
 			e107::getMessage()->addError(LAN_2FA_INCORRECT_TOTP);
 			return false; 
