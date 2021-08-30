@@ -200,6 +200,29 @@ class twofactorauth_ui extends e_admin_ui
 				$user_id = key($_POST['disable_tfa']);
 				$this->disableTfa($user_id);
 			}
+
+			if($this->getAction() == "list") 
+			{
+				$this->batchOptions = array(
+					'disabletfa'  => LAN_2FA_DISABLE_BATCH, 
+				); 
+			}
+		}
+
+		public function handleListDisabletfaBatch($arr)
+		{
+			if(empty($arr))
+			{
+				return null;
+			}
+
+			$arr = e107::getParser()->filter($arr, 'int');
+
+			//print_a($arr);
+			foreach($arr as $key => $userID)
+			{
+				$this->disableTfa($userID);
+			}
 		}
 
 		function disableTfa($user_id)
