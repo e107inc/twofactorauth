@@ -35,6 +35,7 @@ class twofactorauth_user
 			'type' 		=> 'method', 
 			'data'		=> 'str', 
 			'required'	=> false,
+			'nolist'	=> true,
 		); 
 
         return $fields;
