@@ -1,0 +1,8 @@
+Optional - to look into:
+- QR code provider (local instead of API) 
+- Disable 2FA for a while (24 hrs?), only on new device? 
+
+
+// DEV
+R2Q3N7PVA27OTEBNANPLNINCPZO3BYEB (purple)
+
