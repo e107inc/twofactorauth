@@ -8,23 +8,28 @@
     "packages": [
         {
             "name": "robthree/twofactorauth",
-            "version": "1.7.0",
+            "version": "1.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/RobThree/TwoFactorAuth.git",
-                "reference": "37983bf675c5baca09d19d6705170489d0df0002"
+                "reference": "5afcb45282f1c75562a48d479ecd1732c9bdb11b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RobThree/TwoFactorAuth/zipball/37983bf675c5baca09d19d6705170489d0df0002",
-                "reference": "37983bf675c5baca09d19d6705170489d0df0002",
+                "url": "https://api.github.com/repos/RobThree/TwoFactorAuth/zipball/5afcb45282f1c75562a48d479ecd1732c9bdb11b",
+                "reference": "5afcb45282f1c75562a48d479ecd1732c9bdb11b",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.6.0"
             },
             "require-dev": {
+                "php-parallel-lint/php-parallel-lint": "^1.2",
                 "phpunit/phpunit": "@stable"
+            },
+            "suggest": {
+                "bacon/bacon-qr-code": "Needed for BaconQrCodeProvider provider",
+                "endroid/qr-code": "Needed for EndroidQrCodeProvider"
             },
             "type": "library",
             "autoload": {
@@ -59,7 +64,17 @@
                 "issues": "https://github.com/RobThree/TwoFactorAuth/issues",
                 "source": "https://github.com/RobThree/TwoFactorAuth"
             },
-            "time": "2020-01-02T19:56:46+00:00"
+            "funding": [
+                {
+                    "url": "https://paypal.me/robiii",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/RobThree",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-10-20T12:19:55+00:00"
         }
     ],
     "packages-dev": [],
@@ -70,5 +85,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }
