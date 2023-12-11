@@ -16,7 +16,7 @@ define("LAN_2FA_PREFS_DEBUG", 			"TFA-foutopsporingsmodus");
 define("LAN_2FA_PREFS_DEBUG_HELP", 		"Indien ingeschakeld, worden er logbestanden gegenereerd die kunnen helpen bij het opsporen van problemen.");
 
 define("LAN_2FA_PREFS_WEBLABEL", 		"Website label");
-define("LAN_2FA_PREFS_WEBLABEL_HELP", 	"Dit wordt gebruikt in de authenticatie app om uw website te labelen. Standaard ingesteld op SITENAME zoals ingesteld in voorkeuren");
+define("LAN_2FA_PREFS_WEBLABEL_HELP", 	"Dit wordt gebruikt in de authenticatie app om je website te labelen. Standaard ingesteld op SITENAME zoals ingesteld in voorkeuren");
 
 
 // Disable process
@@ -28,5 +28,5 @@ define("LAN_2FA_DISABLE_BATCH",             "Schakel twee-factor-authenticatie u
 
 // Help
 define("LAN_2FA_HELP_MANAGE", 	"De tabel rechts toont elke gebruiker die twee-factor-authenticatie op zijn account heeft geactiveerd.");
-define("LAN_2FA_HELP_DISABLE1", "Als beheerder kunt u twee-factor-authenticatie voor elke gebruiker uitschakelen door op het kruisje te klikken.");
+define("LAN_2FA_HELP_DISABLE1", "Als beheerder kan je twee-factor-authenticatie voor elke gebruiker uitschakelen door op het kruisje te klikken.");
 define("LAN_2FA_HELP_DISABLE2", "Dit kan handig zijn als een gebruiker niet in staat is de juiste authenticatiecode op te halen en daardoor geen toegang heeft tot zijn account.");

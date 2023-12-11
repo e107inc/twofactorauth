@@ -10,9 +10,9 @@
 
 // plugin.xml
 define("LAN_PLUGIN_2FA_NAME", "TwoFactorAuth");
-define("LAN_PLUGIN_2FA_DIZ",  "Plug-in die tweefactorauthenticatie (2FA) toevoegt aan e107"); 
+define("LAN_PLUGIN_2FA_DIZ",  "Plug-in die twee-factor-authenticatie (2FA) toevoegt aan e107"); 
 
 // usersettings.php
 define("LAN_PLUGIN_2FA_NAME_FULL", "Twee-factor-authenticatie");
-define("LAN_2FA_USERSETTING_ENABLE",  "Schakel tweefactorauthenticatie in");
-define("LAN_2FA_USERSETTING_DISABLE", "Schakel tweefactorauthenticatie uit");
+define("LAN_2FA_USERSETTING_ENABLE",  "Schakel twee-factor-authenticatie in");
+define("LAN_2FA_USERSETTING_DISABLE", "Schakel twee-factor-authenticatie uit");
