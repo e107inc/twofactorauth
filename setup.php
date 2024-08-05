@@ -29,7 +29,10 @@ if(!USER)
 // Load required files (TwoFactorAuth Library and twofactorauth class)
 e107_require_once(e_PLUGIN.'twofactorauth/vendor/autoload.php');
 use \RobThree\Auth\TwoFactorAuth;
-$tfa_library = new TwoFactorAuth();
+use \RobThree\Auth\Providers\Qr\EndroidQrCodeProvider;
+
+$tfa_library = new TwoFactorAuth(new EndroidQrCodeProvider());
+
 
 require_once(e_PLUGIN."twofactorauth/twofactorauth_class.php");
 $tfa_class = new tfa_class();
@@ -87,7 +90,7 @@ if($tfaActivated && isset($_POST['enter-totp-disable']))
 if(!$tfaActivated)
 {
 	// Generate Secret Key 
-	$secret = $tfa_library->createSecret(160); 
+	$secret = $tfa_library->createSecret(); 
 
 	// Setup label - defaults to SITENAME
 	$label = e107::getPlugPref('twofactorauth', 'tfa_label');

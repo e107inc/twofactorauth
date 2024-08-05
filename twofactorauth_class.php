@@ -10,6 +10,7 @@
 
 e107_require_once(e_PLUGIN.'twofactorauth/vendor/autoload.php');
 use \RobThree\Auth\TwoFactorAuth;
+use \RobThree\Auth\Providers\Qr\EndroidQrCodeProvider;
 
 class tfa_class
 {
@@ -135,7 +136,7 @@ class tfa_class
 
 	private function verifyTotp($user_id = USERID, $totp)
 	{
-		$tfa_library = new TwoFactorAuth();
+		$tfa_library = new TwoFactorAuth(new EndroidQrCodeProvider());
 
 		// Retrieve secret_key of this user, stored in the database
 		$secret_key = e107::getUserExt()->get($user_id, "user_plugin_twofactorauth_secret_key");
@@ -225,7 +226,7 @@ class tfa_class
 
 	public function processEnable($user_id = USERID, $secret_key, $totp)
 	{
-		$tfa_library = new TwoFactorAuth();
+		$tfa_library = new TwoFactorAuth(new EndroidQrCodeProvider());
 
 		// Verify code
 		if($tfa_library->verifyCode($secret_key, $totp, 2) === false) 
@@ -271,7 +272,7 @@ class tfa_class
 
 	public function processDisable($user_id = USERID, $totp)
 	{
-		$tfa_library = new TwoFactorAuth();
+		$tfa_library = new TwoFactorAuth(new EndroidQrCodeProvider());
 
 		// Retrieve secret_key of this user, stored in the database
 		$secret_key = e107::getUserExt()->get($user_id, "user_plugin_twofactorauth_secret_key");
