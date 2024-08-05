@@ -17,7 +17,7 @@ It makes use of the [TwoFactorAuth Library by RobThree](https://github.com/RobTh
 * cURL extension
 
 ## Recommended authenticator applications
-* [Authy](https://authy.com/) 
+* [2FAS](https://2fas.com/)
 * [Google Authenticator](https://support.google.com/accounts/answer/1066447)
 * [Duo Mobile](https://duo.com/product/multi-factor-authentication-mfa/duo-mobile-app)
 * [Microsoft Authenticator](https://www.microsoft.com/en-us/p/microsoft-authenticator)
