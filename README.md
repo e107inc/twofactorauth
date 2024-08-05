@@ -14,6 +14,7 @@ It makes use of the [TwoFactorAuth Library by RobThree](https://github.com/RobTh
 
 ## Requirements ##
 * e107 v2.3.1+ 
+* PHP 8.2+
 * cURL extension
 
 ## Recommended authenticator applications
