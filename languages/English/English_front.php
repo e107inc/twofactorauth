@@ -27,7 +27,7 @@ define("LAN_2FA_ENABLE_INSTRUCTIONS2", "To confirm your authenticator app is ret
 
 define("LAN_2FA_DISABLE_INSTRUCTIONS", 	"To [b]disable[/b] Two Factor Authenthication for your account, please enter your 6-digit code to verify.");
 
-define("LAN_2FA_ENABLED", 				"Two-factor authenthication has been succesfully [b]enabled[/b]"); 
-define("LAN_2FA_DISABLED", 				"Two-factor authenthication has been succesfully [b]disabled[/b]"); 
+define("LAN_2FA_ENABLED", 				"Two Factor Authenthication has been succesfully [b]enabled[/b]"); 
+define("LAN_2FA_DISABLED", 				"Two Factor Authenthication has been succesfully [b]disabled[/b]"); 
 
 define("LAN_2FA_RETURN_USERSETTINGS", 	"Return to settings");
