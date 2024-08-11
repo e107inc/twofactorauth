@@ -20,22 +20,37 @@ class twofactorauth_user
 	}
 
 	/**
-	 * The same field format as admin-ui, with the addition of 'fieldType', 'read', 'write', 'appliable' and 'required' as used in extended fields table.
+	 * The same field format as admin-ui, with the addition of 'fieldType', 'read', 'write', 'applicable' and 'required' as used in extended fields table.
 	 *
 	 * @return array
 	 */
 	function settings()
 	{
+		// Required options
+		/*
+			<option value='0'>No - Will not show on signup page</option>
+			<option value='1'>Yes - Will show on signup page</option>
+			<option value='2'>No - Show on signup page</option>
+		*/
+
+		//$required = e107::getPref(''); 
+		//$required = 1;  
+
+
+		// Applicable ()
+
+
 		$fields = array();
 		$fields['secret_key'] = array(
-			'title' 	=> LAN_PLUGIN_2FA_NAME_FULL,  
-			'read'		=> e_UC_NOBODY, 
-			'write'		=> e_UC_MEMBER,
-			'fieldType' => 'varchar(255)',       
-			'type' 		=> 'method', 
-			'data'		=> 'str', 
-			'required'	=> false,
-			'nolist'	=> true,
+			'title' 		=> LAN_PLUGIN_2FA_NAME_FULL,  
+			'read'			=> e_UC_NOBODY, 
+			'write'			=> e_UC_MEMBER,
+			'fieldType' 	=> 'varchar(255)',       
+			'type' 			=> 'method', 
+			'data'			=> 'str', 
+			'nolist'		=> true,
+			//'applicable'	=> $applicable,
+			//'required'	=> $required,
 		); 
 
         return $fields;
