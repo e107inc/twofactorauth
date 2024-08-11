@@ -28,14 +28,12 @@ if(empty($session_user_id) || USER)
 {
 	if(USER)
 	{
-		//e107::redirect(e_BASE.'usersettings.php'); 
-		//$url = e107::getUrl()->create('user/myprofile/edit', array('id' => USERID));
 		$url = e107::url('twofactorauth', 'setup'); 
 		e107::redirect($url);
 	}
 	else
 	{
-		$url = e_BASE.'login.php'; 
+		e107::redirect();
 	}
 
 	e107::redirect($url);
