@@ -19,6 +19,6 @@
 		<pref name="tfa_label"></pref>
 	</pluginPrefs>
 	<dependencies>
-		<PHP name='core' min_version='8.2.0' />
+		<php name='core' min_version='8.2.0' />
 	</dependencies>
 </e107Plugin>
