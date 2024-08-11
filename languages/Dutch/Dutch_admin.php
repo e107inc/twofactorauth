@@ -9,10 +9,10 @@
  */
 
 // Prefs
-define("LAN_2FA_PREFS_ACTIVE", 			"TFA Actief");
+define("LAN_2FA_PREFS_ACTIVE", 			"Twee-factor-authenticatie actief");
 define("LAN_2FA_PREFS_ACTIVE_HELP", 	"Maakt het mogelijk om twee-factor-authenticatie in of uit te schakelen voor alle gebruikers.");
 
-define("LAN_2FA_PREFS_DEBUG", 			"TFA-foutopsporingsmodus");
+define("LAN_2FA_PREFS_DEBUG", 			"Foutopsporingsmodus");
 define("LAN_2FA_PREFS_DEBUG_HELP", 		"Indien ingeschakeld, worden er logbestanden gegenereerd die kunnen helpen bij het opsporen van problemen.");
 
 define("LAN_2FA_PREFS_WEBLABEL", 		"Website label");
