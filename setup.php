@@ -23,7 +23,7 @@ if (!e107::isInstalled('twofactorauth'))
 // Only show this page when user is logged in already . 
 if(!USER) 
 {
-	e107::redirect(e_BASE.'login.php'); 
+	e107::redirect();
 }
 
 // Load required files (TwoFactorAuth Library and twofactorauth class)
