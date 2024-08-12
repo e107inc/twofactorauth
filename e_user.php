@@ -50,7 +50,7 @@ class twofactorauth_user
 			'data'			=> 'str', 
 			'nolist'		=> true,
 			//'applicable'	=> $applicable,
-			//'required'	=> $required,
+			'required'		=> false,
 		); 
 
         return $fields;
