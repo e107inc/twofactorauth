@@ -278,7 +278,7 @@ class tfa_class
 			}
 		*/
 
-		// TODO: retrieve array from DB and unserialize
+		// Retrieve array from DB and unserialize
 		$codes_serialized = e107::getUserExt()->get($user_id, "user_plugin_twofactorauth_recovery_codes");
 		$codes = unserialize($codes_serialized);
 
@@ -323,7 +323,6 @@ class tfa_class
 			// No, OTP is not valid, check if it it was the last, otherwise restart the loop. 
 			else 
 			{	
-
 				// Check if it was the last OTP that is stored in the DB. 
 				if ($key === array_key_last($codes)) 
 				{
@@ -359,10 +358,8 @@ class tfa_class
 
 					e107::getEvent()->trigger('twofactorauth_recovery_code_used', $tfa_event_data);
 
-
 		       		// Return false message
 		       		return false; 
-		       		
 		    	}
 
 		    	// OTP was not the last, there's more to check. Restart loop.  	
