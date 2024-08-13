@@ -32,6 +32,12 @@ class twofactorauth_event
 			'function'	=> "init_tfa",
 		);
 
+		// User has submitted an recovery code (either valid or invalid)
+		$event[] = array(
+			'name'		=> "twofactorauth_recovery_code_used", 
+			'function'	=> "recovery_code_used",
+		);
+
 		return $event;
 
 	}
@@ -45,6 +51,49 @@ class twofactorauth_event
 			$tfa = new tfa_class();
 			$tfa->init($data, $eventname);
 		}
+	}
+
+	function recovery_code_used($data, $eventname)
+	{
+		$userdata = e107::user($data['user_id']); 
+
+		//$message = print_a($data, true);
+		//$message .= print_a($userdata, true);
+
+		$timestamp = e107::getDate()->convert_date(time(), 'long');
+
+		$message = '';
+
+		// Recovery was valid
+		if($data["valid"])
+		{
+			$subject = LAN_2FA_RECOVERY_CODE_USED_VALID_TITLE;
+
+			$message .= e107::getParser()->lanVars(LAN_2FA_RECOVERY_CODE_USED_VALID_1, array('x' => $timestamp, 'y'=> $data["user_ip"]), true);
+			$message .= "<br><br>";
+			$message .= e107::getParser()->lanVars(LAN_2FA_RECOVERY_CODE_USED_VALID_2, array('x'=> $data["remaining"]), true);
+		}
+		// Recovery code was invalid
+		else
+		{
+			$subject = LAN_2FA_RECOVERY_CODE_USED_INVALID_TITLE; 
+
+			$message .= e107::getParser()->lanVars(LAN_2FA_RECOVERY_CODE_USED_INVALID_1, array('x' => $timestamp, 'y'=> $data["user_ip"]), true);
+			$message .= "<br><br>";
+			$message .= LAN_2FA_RECOVERY_CODE_USED_INVALID_2;
+		}
+
+
+		$eml = array(
+			'subject' 		=> $subject,
+			'sender_name'	=> SITENAME,
+			'html'			=> true,
+			'template'		=> 'default',
+			'body'			=> $message
+		);
+
+		e107::getEmail()->sendEmail($userdata["user_email"], $userdata["user_name"], $eml);
+
 	}
 
 } 

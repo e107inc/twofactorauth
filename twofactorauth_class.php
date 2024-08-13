@@ -172,6 +172,28 @@ class tfa_class
 
 	}
 
+	public function showRecoveryCodeInputForm()
+	{
+
+		$form_options = array(
+			//"size" 		=> "small", 
+			'required' 		=> 1, 
+			'placeholder'	=> LAN_2FA_ENTER_RECOVERYCODE_PLACEHOLDER, 
+			'autofocus' 	=> true,
+		);
+
+		// Display form to enter recovery code
+		$text .= e107::getForm()->open('enter-recovery-code');
+		$text .= e107::getForm()->text("recovery-code", "", 80, $form_options);
+		
+		$text .= "<br>";
+		$text .= e107::getForm()->button('enter-recovery-code', LAN_VERIFY, 'submit');
+		$text .= e107::getForm()->close(); 
+
+		return $text; 
+
+	}
+
 	public function processLogin($user_id = USERID, $totp)
 	{
 		if($this->verifyTotp($user_id, $totp))
@@ -224,6 +246,178 @@ class tfa_class
 		}
 	}
 
+	private function verifyRecoveryCode($user_id = USERID, $recovery_code)
+	{
+
+		// TODO: check floodprotection 
+		/*
+			$fails = e107::getDb()->count("generic", "(*)", "WHERE gen_ip='{$this->userIP}' AND gen_type='tfa_failed_recovery_code'");
+
+			$failLimit = e107::getPlugPref('twofactorauth', 'tfa_recoverycodesattempts', 3); 
+
+			if($fails >= $failLimit)
+			{
+				if($this->tfa_debug)
+				{
+					e107::getLog()->addDebug(__LINE__." ".__METHOD__.": Flood protection triggered, banning the IP addres now.");
+					e107::getLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
+				}
+
+				$time 			= time();
+				$description 	= e107::getParser()->lanVars(LAN_LOGIN_18, $failLimit);
+				$ip = '';
+				$reason = "...";
+
+				if (true === e107::getIPHandler()->add_ban(2, $reason, $ip, 0))
+				{
+					$ip = e107::getIPHandler()->ipDecode($ip);
+					e107::getEvent()->trigger('flood', $ip); //BC
+					e107::getEvent()->trigger('user_ban_flood', $ip);
+					return false; 
+				}
+			}
+		*/
+
+		// TODO: retrieve array from DB and unserialize
+		$codes_serialized = e107::getUserExt()->get($user_id, "user_plugin_twofactorauth_recovery_codes");
+		$codes = unserialize($codes_serialized);
+
+		// Start looping through
+		foreach ($codes as $key => $hash) 
+		{
+			// Check if OTP is valid
+			if(password_verify($recovery_code, $hash)) 
+			{
+				if($this->tfa_debug)
+				{
+					e107::getLog()->addDebug(__LINE__." ".__METHOD__.": The entered recovery code is valid. Removing it from the saved recovery codes now.");
+					e107::getLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
+				}
+
+				// Yes, OTP is valid. First let's remove it from the database so it cannot be used again
+				unset($codes[$key]);
+
+				$codes_array_hashed = serialize($codes);
+				e107::getUserExt()->set($user_id, "user_plugin_twofactorauth_recovery_codes", $codes_array_hashed, 'array'); 
+
+				// Then, return true, so user can login
+				if($this->tfa_debug)
+				{
+					e107::getLog()->addDebug(__LINE__." ".__METHOD__.": The entered recovery code is valid. Return true to login user.");
+					e107::getLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
+				}
+
+				// Notify user that a recovery code was used, and inform of how many recovery codes are left. 
+				$tfa_event_data = array(
+					'user_id' 		=> $user_id, 
+					'user_ip' 		=> e107::getIPHandler()->getIP(true), 
+					'valid' 		=> true, 
+					'remaining' 	=> count($codes),
+				);
+
+				e107::getEvent()->trigger('twofactorauth_recovery_code_used', $tfa_event_data);
+
+
+			    return true; 
+			} 
+			// No, OTP is not valid, check if it it was the last, otherwise restart the loop. 
+			else 
+			{	
+
+				// Check if it was the last OTP that is stored in the DB. 
+				if ($key === array_key_last($codes)) 
+				{
+		       		// Yes it was the last stored OTP. So this is a definite NO. 
+		       		if($this->tfa_debug)
+					{
+						e107::getLog()->addDebug(__LINE__." ".__METHOD__.": The entered recovery code is INVALID. Log it to floodprotection");
+						e107::getLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
+					}
+
+		   			// TODO: Log it for floodprotection
+		   			/*
+			   			$insert = array(
+							'gen_id'    	=> 0,
+							'gen_type'  	=> 'tfa_failed_recovery_code',
+							'gen_datestamp' => time(),
+							'gen_user_id'   => 0,
+							'gen_ip'        => {$this->userIP},
+							'gen_intdata'   => 0, 
+							'gen_chardata'  => ''
+						);
+
+						$sql->insert('generic', $insert);
+					*/
+
+				
+					// Notify user of invalid attempt to use recovery code
+					$tfa_event_data = array(
+						'user_id' 		=> $user_id, 
+						'user_ip' 		=> e107::getIPHandler()->getIP(true), 
+						'valid' 		=> false, 
+					);
+
+					e107::getEvent()->trigger('twofactorauth_recovery_code_used', $tfa_event_data);
+
+
+		       		// Return false message
+		       		return false; 
+		       		
+		    	}
+
+		    	// OTP was not the last, there's more to check. Restart loop.  	
+			    continue; 
+			}   
+		}
+	}
+
+	public function processRecoveryCode($user_id = USERID, $recovery_code)
+	{
+		if($this->tfa_debug)
+		{
+			e107::getLog()->addDebug(__LINE__." ".__METHOD__.": Starting Recovery Code processing");
+			e107::getLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
+		}
+		
+		if($this->verifyRecoveryCode($user_id, $recovery_code))
+		{
+			// Continue processing login 
+			$user = e107::user($user_id);
+			$ulogin = new userlogin();
+			$ulogin->validLogin($user);
+
+			// Get previous page the user was on before logging in. 
+			$redirect_to = e107::getSession('2fa')->get('previous_page');
+
+			if($this->tfa_debug)
+			{
+				e107::getLog()->addDebug(__LINE__." ".__METHOD__.": Session Previous page: ".$redirect_to);
+				e107::getLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
+			}
+	
+			// Clear session data
+			e107::getSession('2fa')->clearData();
+
+			// Redirect to previous page or otherwise to homepage
+			if($redirect_to)
+			{
+				e107::getRedirect()->redirect($redirect_to);
+			}
+			else
+			{
+				e107::redirect();
+			}
+			
+
+			e107::redirect();
+		}
+		// The entered recovery code is INCORRECT, return false
+		else
+		{
+			return false; 
+		}
+	}
+
 	public function processEnable($user_id = USERID, $secret_key, $totp)
 	{
 		$tfa_library = new TwoFactorAuth(new EndroidQrCodeProvider());
@@ -268,6 +462,67 @@ class tfa_class
 		}
 
 		return true; 
+	}
+
+	public function generateRecoveryCodes($user_id = USERID)
+	{
+
+		$codes_array_readable 	= array(); 
+		$codes_array_hashed 	= array(); 
+
+		$randomizer = new \Random\Randomizer();
+
+	    for ($x = 0; $x <= 9; $x++) 
+	    {
+	  		$code = $randomizer->getBytesFromString('abcdefghijklmnopqrstuvwxyz0123456789', 16); 
+	  		$code = implode('-', str_split($code, 4)); 
+	  		
+	  		array_push($codes_array_readable, $code);  
+
+	  		// now hash the code, store it in the hashed codes array
+	  		$hashed_code = password_hash($code, PASSWORD_DEFAULT);	
+	  		array_push($codes_array_hashed, $hashed_code);
+		}
+
+		$codes_array_serialized = serialize($codes_array_hashed);
+
+		if($this->tfa_debug)
+		{
+			e107::getLog()->addDebug(__LINE__." ".__METHOD__.": Serialized recovery codes");
+			e107::getLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
+		}
+		
+		if(!e107::getUserExt()->set($user_id, "user_plugin_twofactorauth_recovery_codes", $codes_array_serialized, 'array'))
+		{
+			if($this->tfa_debug)
+			{
+				e107::getLog()->addDebug(__LINE__." ".__METHOD__.": Could not add recovery codes to EUF");
+				e107::getLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
+			}
+
+			e107::getMessage()->addError(LAN_2FA_DATABASE_ERROR);
+			return false; 
+		}
+
+		// Present readable format to user. 
+	 	return $codes_array_readable;
+	}
+
+	public function removeRecoveryCodes($user_id = USERID)
+	{
+		if(!e107::getUserExt()->set($user_id, "user_plugin_twofactorauth_recovery_codes", ''))
+		{
+			if($this->tfa_debug)
+			{
+				e107::getLog()->addDebug(__LINE__." ".__METHOD__.": Could not remove recovery codes from EUF");
+				e107::getLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
+			}
+
+			return false; 
+		}
+
+		return true; 
+
 	}
 
 	public function processDisable($user_id = USERID, $totp)

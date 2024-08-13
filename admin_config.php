@@ -138,6 +138,22 @@ class twofactorauth_ui extends e_admin_ui
 				'help'			=> LAN_2FA_PREFS_ACTIVE_HELP, 
 				'writeParms'	=> array()
 			),
+			'tfa_recoverycodes' => array(
+				'title'			=> LAN_2FA_PREFS_RECOVERY_CODES, 
+				'tab'			=> 0, 
+				'type'			=> 'boolean', 
+				'data' 			=> 'int', 
+				'help'			=> LAN_2FA_PREFS_RECOVERY_CODES_HELP, 
+				'writeParms'	=> array()
+			),
+			'tfa_recoverycodesattempts' => array(
+				'title'			=> LAN_2FA_PREFS_RECOVERY_CODES_ATTEMPTS, 
+				'tab'			=> 0, 
+				'type'			=> 'number', 
+				'data' 			=> 'int', 
+				'help'			=> LAN_2FA_PREFS_RECOVERY_CODES_ATTEMPTS_HELP, 
+				'writeParms'	=> array()
+			),
 			'tfa_debug' => array(
 				'title'			=> LAN_2FA_PREFS_DEBUG, 
 				'tab'			=> 0, 

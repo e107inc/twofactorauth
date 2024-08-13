@@ -12,7 +12,13 @@
 define("LAN_2FA_PREFS_ACTIVE", 			"Two Factor Authentication Active");
 define("LAN_2FA_PREFS_ACTIVE_HELP", 	"Allows to Two Factor Authentication on or off for all users.");
 
-define("LAN_2FA_PREFS_DEBUG", 			"TFA Debug Mode");
+define("LAN_2FA_PREFS_RECOVERY_CODES", 		"Recovery Codes");
+define("LAN_2FA_PREFS_RECOVERY_CODES_HELP", "Allows a user to use a one-time recovery code to login.");
+
+define("LAN_2FA_PREFS_RECOVERY_CODES_ATTEMPTS", 		"Recovery Codes Attempts");
+define("LAN_2FA_PREFS_RECOVERY_CODES_ATTEMPTS_HELP", 	"The amount of tries a user can have to enter a valid recovery code. After this limit is reached, the IP will be automatically banned.");
+
+define("LAN_2FA_PREFS_DEBUG", 			"Debug Mode");
 define("LAN_2FA_PREFS_DEBUG_HELP", 		"When enabled, log files are generated which can help debug issues.");
 
 define("LAN_2FA_PREFS_WEBLABEL", 		"Website Label");

@@ -15,10 +15,15 @@
 	</adminLinks>
 	<pluginPrefs>
 		<pref name="tfa_active">1</pref>
+		<pref name="tfa_recoverycodes">1</pref>
+		<pref name="tfa_recoverycodesattempts">3</pref>
 		<pref name="tfa_debug">0</pref>
 		<pref name="tfa_label"></pref>
 	</pluginPrefs>
 	<dependencies>
 		<php name='core' min_version='8.2.0' />
 	</dependencies>
+	<extendedFields>
+		<field name="recovery_codes" type='EUF_TEXTAREA' default='' active="true" />
+	</extendedFields>
 </e107Plugin>

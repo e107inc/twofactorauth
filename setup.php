@@ -58,10 +58,46 @@ if(!$tfaActivated && isset($_POST['enter-totp-enable']))
 	$totp = intval($_POST['totp']);
 	$totp = (string) $totp;
 
+	$text = '';
+
 	if($tfa_class->processEnable(USERID, $secret_key, $totp))
 	{
 		e107::getMessage()->addSuccess(e107::getParser()->toHTML(LAN_2FA_ENABLED, true));
-		$text = "<a class='btn btn-primary' href='".$usersettings_url."'>".LAN_2FA_RETURN_USERSETTINGS."</a>.";
+
+		// Check if Recovery Codes functionality is enabled, and if yes, generate new recovery codes
+		if(e107::getPlugPref('twofactorauth', 'tfa_recoverycodes'))
+		{
+			if($recovery_codes = $tfa_class->generateRecoveryCodes(USERID))
+			{
+				// TODO Let user download a txt file with the codes 
+				$recovery_codes1 = array_slice($recovery_codes, 0, 5);
+				$recovery_codes2 = array_slice($recovery_codes, 5);
+
+				$recovery_codes1 = implode("<br>", $recovery_codes1);
+				$recovery_codes2 = implode("<br>", $recovery_codes2);
+
+
+				$text .= "<p><strong>".LAN_2FA_RECOVERYCODES_GENERATED."</strong><p>";
+
+				$text .= '<div class="row justify-content-center">';
+				$text .= '	<div class="col col-md-6 text-center">
+						      '.$recovery_codes1.'
+						    </div>
+					 	';
+				$text .= '	<div class="col col-md-6 text-center">
+								'.$recovery_codes2.'
+							</div>
+					 	';
+				$text .= '</div>'; 
+				$text .= "<br>";
+			}
+			else
+			{
+				e107::getMessage()->addError(e107::getParser()->toHTML(LAN_2FA_RECOVERYCODES_GENERATED_ERROR, true));
+			}
+		}
+
+		$text .= "<a class='btn btn-primary' href='".$usersettings_url."'>".LAN_2FA_RETURN_USERSETTINGS."</a>.";
 
 		e107::getRender()->tablerender($caption, e107::getMessage()->render().$text);
 		require_once(FOOTERF);
@@ -77,6 +113,20 @@ if($tfaActivated && isset($_POST['enter-totp-disable']))
 	if($tfa_class->processDisable(USERID, $totp))
 	{
 		e107::getMessage()->addSuccess(e107::getParser()->toHTML(LAN_2FA_DISABLED, true));
+		
+		// Check if Recovery Codes functionality is enabled, and if yes, generate new recovery codes
+		if(e107::getPlugPref('twofactorauth', 'tfa_recoverycodes'))
+		{
+			if($removed = $tfa_class->removeRecoveryCodes(USERID))
+			{
+				e107::getMessage()->addSuccess(LAN_2FA_RECOVERYCODES_REMOVED);
+			}
+			else
+			{
+				e107::getMessage()->addError(LAN_2FA_RECOVERYCODES_REMOVED_ERROR);
+			}
+		} 
+
 		$text = "<a class='btn btn-primary' href='".$usersettings_url."'>".LAN_2FA_RETURN_USERSETTINGS."</a>.";
 
 		e107::getRender()->tablerender($caption, e107::getMessage()->render().$text);

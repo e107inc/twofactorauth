@@ -13,12 +13,21 @@ define("LAN_2FA_TITLE", "Twee-factor-authenticatie");
 
 
 // Verify
-define("LAN_2FA_VERIFY_INSTRUCTIONS", 		"Open de twee-factor-authenticatie app op je apparaat om je authenticatiecode te bekijken en uw identiteit te verifiëren."); 
+define("LAN_2FA_VERIFY_INSTRUCTIONS", 		"Open de twee-factor-authenticatie app op je apparaat om je authenticatiecode te bekijken en je identiteit te verifiëren."); 
 define("LAN_2FA_ENTER_TOTP_PLACEHOLDER", 	"Voer de 6-cijferige code in"); 
-define("LAN_2FA_FALLBACK_INSTRUCTIONS", 	"Als je niet de juiste authenticatiecode kunt opgeven, neem dan contact op met de websitebeheerder.");
+define("LAN_2FA_FALLBACK_INSTRUCTIONS", 	"Als je niet de juiste authenticatiecode kunt opgeven, klik dan [hier] om een herstelcode te gebruiken. Mocht dat niet werken, neem dan contact op met de websitebeheerder.");
 define("LAN_2FA_INCORRECT_TOTP", 			"De ingevoerde 6-cijferige code is onjuist! Probeer het opnieuw.");
 
 define("LAN_2FA_DATABASE_ERROR", 			"Er is een onbekend probleem opgetreden met betrekking tot de database. Neem dan contact op met de websitebeheerder.");
+
+
+// Recovery
+define("LAN_2FA_RECOVERY", 							"Herstellen");
+define("LAN_2FA_RECOVERYCODE_INSTRUCTIONS",			"Voer een van de herstelcodes in die je hebt opgeslagen toen je twee-factor-authenticatie voor je account instelde.");
+define("LAN_2FA_ENTER_RECOVERYCODE_PLACEHOLDER", 	"Voer een herstelcode in");
+define("LAN_2FA_INCORRECT_RECOVERYCODE", 			"Je hebt een onjuiste herstelcode ingevoerd. Neem contact op met de websitebeheerder.");
+define("LAN_2FA_RECOVERYCODES_GENERATED", 			"Dit zijn de herstelcodes voor jouw account. Ze worden EENMAAL weergegeven! Sla de herstelcodes op een veilige plek op.");
+define("LAN_2FA_RECOVERYCODES_GENERATED_ERROR", 	"Het is niet gelukt om de herstelcodes voor jouw account aan te maken. Neem contact op met de websitebeheerder."); 
 
 
 // Setup

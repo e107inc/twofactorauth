@@ -16,3 +16,14 @@ define("LAN_PLUGIN_2FA_DIZ",  "Plugin that adds Two-Factor Authentication (2FA) 
 define("LAN_PLUGIN_2FA_NAME_FULL", "Two Factor Authentication");
 define("LAN_2FA_USERSETTING_ENABLE",  "Enable Two Factor Authenthication");
 define("LAN_2FA_USERSETTING_DISABLE", "Disable Two Factor Authenthication");
+
+// Recovery codes
+define("LAN_2FA_RECOVERY_CODES", "Two Factor Authenthication Recovery Codes"); // used in EUF title
+
+define("LAN_2FA_RECOVERY_CODE_USED_VALID_TITLE", 	"Successful login with Two Factor Authenthication Recovery Code");
+define("LAN_2FA_RECOVERY_CODE_USED_VALID_1", 		"A Two Factor Authenthication Recovery Code was just used (at [x]) to successfully login to your account from IP address [y]. If this was not you, your account may be compromised. Please contact the website administrator immediately!");
+define("LAN_2FA_RECOVERY_CODE_USED_VALID_2", 		"You have [x] recovery codes remaining. To generate new recovery codes, please disable and re-enable Two Factor Authenthication on your account.");
+
+define("LAN_2FA_RECOVERY_CODE_USED_INVALID_TITLE", 	"Failed attempt to use Two Factor Authenthication Recovery Code");
+define("LAN_2FA_RECOVERY_CODE_USED_INVALID_1", 		"Someone just tried to login to your account (at [x]) using a Two Factor Authenthication Recovery Code. This attempt was unsuccessful. Their IP address ([y]) will be banned automatically should the attempts continue.");
+define("LAN_2FA_RECOVERY_CODE_USED_INVALID_2", 		"There is no action needed on your part. If the issue persists, please contact the website administrator.");

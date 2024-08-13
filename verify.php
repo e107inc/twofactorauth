@@ -122,7 +122,11 @@ if(isset($_POST))
 // Display form to enter TOTP 
 e107::getMessage()->addInfo(e107::getParser()->toHTML(LAN_2FA_VERIFY_INSTRUCTIONS, true));
 $text .= $tfa_class->showTotpInputForm($action); 
-$text .= '<p class="font-italic">'.LAN_2FA_FALLBACK_INSTRUCTIONS.'</p>';
+
+$fallback_instructions = str_replace(['[', ']'], ["<a href='".e107::url('twofactorauth', 'recovery')."'>", '</a>'], LAN_2FA_FALLBACK_INSTRUCTIONS);
+
+$text .= '<p class="font-italic">'.$fallback_instructions.'</p>';
+
 
 // Let's render and show it all!
 e107::getRender()->tablerender($caption, e107::getMessage()->render().$text);

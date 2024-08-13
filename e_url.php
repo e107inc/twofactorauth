@@ -30,6 +30,13 @@ class twofactorauth_url
 			'redirect'		=> '{e_PLUGIN}twofactorauth/setup.php',
 		);
 
+		$config['recovery'] = array(
+			'alias'         => 'tfa',
+			'regex'			=> '^{alias}\/recovery\/?$',
+			'sef'			=> '{alias}/recovery',
+			'redirect'		=> '{e_PLUGIN}twofactorauth/recovery.php',
+		);
+
 		return $config;
 	}
 }
