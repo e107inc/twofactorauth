@@ -16,7 +16,7 @@ define("LAN_2FA_PREFS_RECOVERY_CODES", 		"Herstelcodes");
 define("LAN_2FA_PREFS_RECOVERY_CODES_HELP", "Maakt het mogelijk voor een gebruiker om in te loggen met een eenmalige herstelcode.");
 
 define("LAN_2FA_PREFS_RECOVERY_CODES_ATTEMPTS", 		"Herstelcodes pogingen");
-define("LAN_2FA_PREFS_RECOVERY_CODES_ATTEMPTS_HELP", 	"Het aantal pogingen dat een gebruiker kan proberen om een geldige herstelcode in te voeren. Nadat dit limiet bereikt is zal het IP adres automatisch worden geblokkeerd.");
+define("LAN_2FA_PREFS_RECOVERY_CODES_ATTEMPTS_HELP", 	"Het aantal pogingen dat een gebruiker kan proberen om een geldige herstelcode in te voeren binnen 24 uur tijd. Nadat dit limiet bereikt is zal het IP adres automatisch worden geblokkeerd.");
 
 define("LAN_2FA_PREFS_DEBUG", 			"Foutopsporingsmodus");
 define("LAN_2FA_PREFS_DEBUG_HELP", 		"Indien ingeschakeld, worden er logbestanden gegenereerd die kunnen helpen bij het opsporen van problemen.");

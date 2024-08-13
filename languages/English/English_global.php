@@ -27,3 +27,4 @@ define("LAN_2FA_RECOVERY_CODE_USED_VALID_2", 		"You have [x] recovery codes rema
 define("LAN_2FA_RECOVERY_CODE_USED_INVALID_TITLE", 	"Failed attempt to use Two Factor Authenthication Recovery Code");
 define("LAN_2FA_RECOVERY_CODE_USED_INVALID_1", 		"Someone just tried to login to your account (at [x]) using a Two Factor Authenthication Recovery Code. This attempt was unsuccessful. Their IP address ([y]) will be banned automatically should the attempts continue.");
 define("LAN_2FA_RECOVERY_CODE_USED_INVALID_2", 		"There is no action needed on your part. If the issue persists, please contact the website administrator.");
+define("LAN_2FA_RECOVERY_CODE_REACHED_FAILLIMIT", 	"TwoFactorAuth: More than [x] failed attempts to login using a recovery code.");

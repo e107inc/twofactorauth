@@ -27,3 +27,4 @@ define("LAN_2FA_RECOVERY_CODE_USED_VALID_2", 		"Je hebt nog [x] herstelcodes ove
 define("LAN_2FA_RECOVERY_CODE_USED_INVALID_TITLE", 	"Mislukte poging om een twee-factor-authenticatie herstelcode te gebruiken");
 define("LAN_2FA_RECOVERY_CODE_USED_INVALID_1", 		"Iemand heeft zojuist (op [x]) geprobeerd om met een twee-factor-authenticatie herstelcode in te loggen op jouw account. Deze poging was niet succesvol. Het IP adres ([y]) zal automatisch worden geblokkeerd als deze pogingen worden doorgezet.");
 define("LAN_2FA_RECOVERY_CODE_USED_INVALID_2", 		"Er is geen actie van jou nodig. Neem contact op met de websitebeheerder als de pogingen door blijven gaan.");
+define("LAN_2FA_RECOVERY_CODE_REACHED_FAILLIMIT", 	"TwoFactorAuth: Meer dan [x] mislukte pogingen om in te loggen met een herstelcode.");

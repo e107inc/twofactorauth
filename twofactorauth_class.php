@@ -248,35 +248,48 @@ class tfa_class
 
 	private function verifyRecoveryCode($user_id = USERID, $recovery_code)
 	{
+		$user_ip 		= e107::getIPHandler()->getIP(); 
+		$now 			= time(); 
+		$timesetback 	= strtotime('-24 hours', $now); 
+		
+		$fails = e107::getDb()->count("generic", "(*)", "WHERE gen_ip = '{$user_ip}' AND gen_type = 'tfa_failed_recovery_code' AND `gen_datestamp` BETWEEN '{$timesetback}' AND '{$now}'"); 
+		$failLimit = e107::getPlugPref('twofactorauth', 'tfa_recoverycodesattempts', 3); 
 
-		// TODO: check floodprotection 
-		/*
-			$fails = e107::getDb()->count("generic", "(*)", "WHERE gen_ip='{$this->userIP}' AND gen_type='tfa_failed_recovery_code'");
+		if($this->tfa_debug)
+		{
+			e107::getLog()->addDebug(__LINE__." ".__METHOD__.": user_ip: ".$user_ip);
+			e107::getLog()->addDebug(__LINE__." ".__METHOD__.": timesetback: ".$timesetback);
+			e107::getLog()->addDebug(__LINE__." ".__METHOD__.": fails: ".$fails);
+			e107::getLog()->addDebug(__LINE__." ".__METHOD__.": faillimit: ".$failLimit);
+			e107::getLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
+		}
 
-			$failLimit = e107::getPlugPref('twofactorauth', 'tfa_recoverycodesattempts', 3); 
+		if($fails > $failLimit)
+		{
+			if($this->tfa_debug)
+			{
+				e107::getLog()->addDebug(__LINE__." ".__METHOD__.": Flood protection triggered because user has reached the faillimit, banning the IP addres now.");
+				e107::getLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
+			}
+			
+			$reason	= e107::getParser()->lanVars(LAN_2FA_RECOVERY_CODE_REACHED_FAILLIMIT, $failLimit);
 
-			if($fails >= $failLimit)
+			if(true === e107::getIPHandler()->add_ban(2, $reason, $user_ip, 0))
+			{
+				$ip = e107::getIPHandler()->ipDecode($user_ip);
+				e107::getEvent()->trigger('user_ban_flood', $ip);
+
+				return false; 
+			}
+			else
 			{
 				if($this->tfa_debug)
 				{
-					e107::getLog()->addDebug(__LINE__." ".__METHOD__.": Flood protection triggered, banning the IP addres now.");
+					e107::getLog()->addDebug(__LINE__." ".__METHOD__.": ERROR: Flood protection triggered but could not add ban for some reason. Localhost?");
 					e107::getLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
-				}
-
-				$time 			= time();
-				$description 	= e107::getParser()->lanVars(LAN_LOGIN_18, $failLimit);
-				$ip = '';
-				$reason = "...";
-
-				if (true === e107::getIPHandler()->add_ban(2, $reason, $ip, 0))
-				{
-					$ip = e107::getIPHandler()->ipDecode($ip);
-					e107::getEvent()->trigger('flood', $ip); //BC
-					e107::getEvent()->trigger('user_ban_flood', $ip);
-					return false; 
-				}
+				}	
 			}
-		*/
+		}
 
 		// Retrieve array from DB and unserialize
 		$codes_serialized = e107::getUserExt()->get($user_id, "user_plugin_twofactorauth_recovery_codes");
@@ -332,21 +345,27 @@ class tfa_class
 						e107::getLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
 					}
 
-		   			// TODO: Log it for floodprotection
-		   			/*
-			   			$insert = array(
-							'gen_id'    	=> 0,
-							'gen_type'  	=> 'tfa_failed_recovery_code',
-							'gen_datestamp' => time(),
-							'gen_user_id'   => 0,
-							'gen_ip'        => {$this->userIP},
-							'gen_intdata'   => 0, 
-							'gen_chardata'  => ''
-						);
+		   			// Log it for floodprotection
+		   			$insert = array(
+						'gen_id'    	=> 0,
+						'gen_type'  	=> 'tfa_failed_recovery_code',
+						'gen_datestamp' => time(),
+						'gen_user_id'   => $user_id,
+						'gen_ip'        => e107::getIPHandler()->getIP(),
+						'gen_intdata'   => 0, 
+						'gen_chardata'  => ''
+					);
 
-						$sql->insert('generic', $insert);
-					*/
-
+					if(!e107::getDb()->insert('generic', $insert))
+					{
+						// Log database error. 
+			       		if($this->tfa_debug)
+						{
+							e107::getLog()->addDebug(__LINE__." ".__METHOD__.": Could not insert failed recovery code attempt to generic table in database");
+							e107::getLog()->addDebug(e107::getDb()->getLastErrorText());
+							e107::getLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
+						}
+					}
 				
 					// Notify user of invalid attempt to use recovery code
 					$tfa_event_data = array(
