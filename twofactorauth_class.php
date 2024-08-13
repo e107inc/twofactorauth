@@ -300,7 +300,6 @@ class tfa_class
 				$codes_array_hashed = serialize($codes);
 				e107::getUserExt()->set($user_id, "user_plugin_twofactorauth_recovery_codes", $codes_array_hashed, 'array'); 
 
-				// Then, return true, so user can login
 				if($this->tfa_debug)
 				{
 					e107::getLog()->addDebug(__LINE__." ".__METHOD__.": The entered recovery code is valid. Return true to login user.");
@@ -317,7 +316,7 @@ class tfa_class
 
 				e107::getEvent()->trigger('twofactorauth_recovery_code_used', $tfa_event_data);
 
-
+				// Then, return true, so user can login
 			    return true; 
 			} 
 			// No, OTP is not valid, check if it it was the last, otherwise restart the loop. 
