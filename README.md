@@ -7,6 +7,7 @@ It makes use of the [TwoFactorAuth Library by RobThree](https://github.com/RobTh
 ## Features
 ### Current features
 * 2FA support for login (both user and admin)
+* Recovery codes
 * Admins can disable 2FA for a specific user (as fallback)
 * Ability to change "Label" (used in the authentication application) in preferences
 
