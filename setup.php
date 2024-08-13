@@ -82,6 +82,7 @@ if(!$tfaActivated && isset($_POST['enter-totp-enable']))
 				$text .= '<div class="row justify-content-center">';
 				$text .= '	<div class="col col-md-6 text-center">
 						      '.$recovery_codes1.'
+						      <br>
 						    </div>
 					 	';
 				$text .= '	<div class="col col-md-6 text-center">
