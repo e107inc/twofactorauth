@@ -3,6 +3,7 @@
 This plugin adds Two Factor Authentication (2FA) to an e107 installation. It can be used in combination with any [authentication app](https://github.com/e107inc/twofactorauth/#recommended-authenticator-applications) on your (mobile) device. 
 
 It makes use of the [TwoFactorAuth Library by RobThree](https://github.com/RobThree/TwoFactorAuth).
+
 ## Features
 ### Current features
 * 2FA support for login (both user and admin)
@@ -15,7 +16,6 @@ It makes use of the [TwoFactorAuth Library by RobThree](https://github.com/RobTh
 ## Requirements ##
 * e107 v2.3.1+ 
 * PHP 8.2+
-* cURL extension
 
 ## Recommended authenticator applications
 * [2FAS](https://2fas.com/)
