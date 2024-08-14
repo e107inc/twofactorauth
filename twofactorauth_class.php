@@ -24,15 +24,26 @@ class tfa_class
 			$this->tfa_debug = true;
 		}
 	}
+
+	// Check debug mode
+	public function checkDebug()
+	{
+		if(e107::getPlugPref('twofactorauth', 'tfa_debug')) 
+		{
+			return true;
+		}
+
+		return false; 
+	}
 	
 	public function init($data, $eventname)
 	{
-		// Login
+		// Login - user_validlogin
 		if($eventname == 'user_validlogin')
 		{
 			$user_id = $data; 
 		}
-		// FPW
+		// FPW - user_fpw_request
 		else
 		{
 			// error_log($eventname);
@@ -44,7 +55,7 @@ class tfa_class
 		// Check if 2FA is activated
 		if($this->tfaActivated($user_id) == false)
 		{
-			// 2FA is NOT activated, return false to proceed with core login process.
+			// 2FA is NOT activated, return false to proceed with core login/fpw process.
 			if($this->tfa_debug)
 			{
 				e107::getLog()->addDebug(__LINE__." ".__METHOD__.": 2FA is NOT activated for User ID ".$user_id);
@@ -59,11 +70,13 @@ class tfa_class
 		{
 			e107::getLog()->addDebug(__LINE__." ".__METHOD__.": 2FA is activated for User ID ".$user_id);
 			e107::getLog()->addDebug(__LINE__." ".__METHOD__.": User will need to enter digits. Redirect to tfa/verify");
+			e107::getLog()->addDebug(__LINE__." ".__METHOD__.": Event name: ".$eventname);
 			e107::getLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
 		}
 
 		// Store some information in a session, so we can retrieve it again later 
 		e107::getSession('2fa')->set('user_id', $user_id); // Store User ID
+		e107::getSession('2fa')->set('eventname', $eventname); // Store User ID
 		e107::getSession('2fa')->set('previous_page', e_REQUEST_URL); // Store the page the user is logging in from
 
 		// Redirect to page to enter TOTP 
@@ -235,13 +248,31 @@ class tfa_class
 
 	public function processFpw($user_id = USERID, $totp)
 	{
+		if($this->tfa_debug)
+		{
+			e107::getLog()->addDebug(__LINE__." ".__METHOD__.": Start processing FPW");
+			e107::getLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
+		}
+
 		if($this->verifyTotp($user_id, $totp))
 		{
+			if($this->tfa_debug)
+			{
+				e107::getLog()->addDebug(__LINE__." ".__METHOD__.": FPW - TOTP is correct, return true");
+				e107::getLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
+			}
+
 			return true; 
 		}
 		// The entered TOTP is INCORRECT
 		else
 		{
+			if($this->tfa_debug)
+			{
+				e107::getLog()->addDebug(__LINE__." ".__METHOD__.": FPW - TOTP is incorrect. Return error message");
+				e107::getLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
+			}
+
 			return LAN_2FA_INCORRECT_TOTP; 
 		}
 	}
@@ -396,27 +427,29 @@ class tfa_class
 		
 		if($this->verifyRecoveryCode($user_id, $recovery_code))
 		{
-			// Continue processing login 
-			$user = e107::user($user_id);
-			$ulogin = new userlogin();
-			$ulogin->validLogin($user);
-
 			// Get previous page the user was on before logging in. 
-			$redirect_to = e107::getSession('2fa')->get('previous_page');
+			$previous_page = e107::getSession('2fa')->get('previous_page');
 
 			if($this->tfa_debug)
 			{
 				e107::getLog()->addDebug(__LINE__." ".__METHOD__.": Session Previous page: ".$redirect_to);
 				e107::getLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
 			}
-	
+
+			if(!str_contains($previous_page, 'fpw.php'))
+			{
+				$user = e107::user($user_id);
+				$ulogin = new userlogin();
+				$ulogin->validLogin($user);
+			}
+				
 			// Clear session data
 			e107::getSession('2fa')->clearData();
 
 			// Redirect to previous page or otherwise to homepage
 			if($redirect_to)
 			{
-				e107::getRedirect()->redirect($redirect_to);
+				e107::getRedirect()->redirect($previous_page);
 			}
 			else
 			{

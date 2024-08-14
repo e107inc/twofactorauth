@@ -20,29 +20,52 @@ if (!e107::isInstalled('twofactorauth'))
 	exit;
 }
 
+// Make this page inaccessible when plugin is not installed. 
+if (!e107::isInstalled('twofactorauth'))
+{
+	e107::redirect();
+	exit;
+}
+
+require_once(e_PLUGIN."twofactorauth/twofactorauth_class.php");
+$tfa_class = new tfa_class();
+
 $session_user_id 		= e107::getSession('2fa')->get('user_id');
 $session_previous_page 	= e107::getSession('2fa')->get('previous_page');
 
 // No need to access this file directly or when already logged in. 
 if(empty($session_user_id) || USER)
 {
+	if($tfa_class->checkDebug())
+	{
+		e107::getLog()->addDebug(__LINE__." ".__FILE__.": session_user_id: ".$session_user_id);
+		e107::getLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
+	}
+
 	if(USER)
 	{
+		if($tfa_class->checkDebug())
+		{
+			e107::getLog()->addDebug(__LINE__." ".__FILE__.": User is already logged in? Redirect to setup");
+			e107::getLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
+		}
+
 		$url = e107::url('twofactorauth', 'setup'); 
 		e107::redirect($url);
 	}
 	else
 	{
-		e107::redirect(); 
+		if($tfa_class->checkDebug())
+		{
+			e107::getLog()->addDebug(__LINE__." ".__FILE__.": session user id already set? Redirect to homepage");
+			e107::getLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
+		}
+		e107::redirect();
 	}
 
 	e107::redirect($url);
 	exit;
 }
-
-
-require_once(e_PLUGIN."twofactorauth/twofactorauth_class.php");
-$tfa_class = new tfa_class();
 
 // Load LAN files
 e107::lan('twofactorauth', false, true);
