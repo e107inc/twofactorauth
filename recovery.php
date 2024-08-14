@@ -78,7 +78,7 @@ if(isset($_POST['enter-recovery-code']))
 
 // Display form to enter recovery code
 e107::getMessage()->addInfo(e107::getParser()->toHTML(LAN_2FA_RECOVERYCODE_INSTRUCTIONS, true));
-$text .= $tfa_class->showRecoveryCodeInputForm(); 
+$text .= $tfa_class->showRecoveryCodeInputForm($action); 
 
 
 // Let's render and show it all!
