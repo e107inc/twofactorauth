@@ -17,7 +17,6 @@ class twofactorauth_event
 
 	function config()
 	{
-
 		$event = array();
 
 		// User login
@@ -39,7 +38,6 @@ class twofactorauth_event
 		);
 
 		return $event;
-
 	}
 
 	
@@ -48,13 +46,18 @@ class twofactorauth_event
 		// Check to see if Two Factor Authentication is active for all users
 		if(e107::getPlugPref('twofactorauth', 'tfa_active'))
 	    {
-			$tfa = new tfa_class();
-			$tfa->init($data, $eventname);
+			$tfa_class = new tfa_class();
+			$tfa_class->tfaDebug(__LINE__." ".__FILE__.": Start Initialising TFA code.");
+			$tfa_class->tfaDebug(__LINE__." ".__FILE__.": Eventname: ".$eventname);
+			$tfa_class->init($data, $eventname);
 		}
 	}
 
 	function recovery_code_used($data, $eventname)
 	{
+		$tfa = new tfa_class();
+		$tfa_class->tfaDebug(__LINE__." ".__FILE__.": Start recovery code notification");
+
 		$userdata = e107::user($data['user_id']); 
 
 		//$message = print_a($data, true);
@@ -67,6 +70,8 @@ class twofactorauth_event
 		// Recovery was valid
 		if($data["valid"])
 		{
+			$tfa_class->tfaDebug(__LINE__." ".__FILE__.": Recovery code was valid");
+
 			$subject = LAN_2FA_RECOVERY_CODE_USED_VALID_TITLE;
 
 			$message .= e107::getParser()->lanVars(LAN_2FA_RECOVERY_CODE_USED_VALID_1, array('x' => $timestamp, 'y'=> $data["user_ip"]), true);
@@ -76,6 +81,8 @@ class twofactorauth_event
 		// Recovery code was invalid
 		else
 		{
+			$tfa_class->tfaDebug(__LINE__." ".__FILE__.": Recovery code was invalid");
+
 			$subject = LAN_2FA_RECOVERY_CODE_USED_INVALID_TITLE; 
 
 			$message .= e107::getParser()->lanVars(LAN_2FA_RECOVERY_CODE_USED_INVALID_1, array('x' => $timestamp, 'y'=> $data["user_ip"]), true);
@@ -94,6 +101,6 @@ class twofactorauth_event
 
 		e107::getEmail()->sendEmail($userdata["user_email"], $userdata["user_name"], $eml);
 
+		$tfa_class->tfaDebug(__LINE__." ".__FILE__.": Recovery code notification email sent")
 	}
-
 } 

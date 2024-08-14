@@ -285,7 +285,7 @@ class tfa_class
 				e107::getUserExt()->set($user_id, "user_plugin_twofactorauth_recovery_codes", $codes_array_hashed, 'array'); 
 
 				// Notify user that a recovery code was used, and inform of how many recovery codes are left. 
-				$this->tfaDebug(__LINE__." ".__METHOD__.": Notifying user of succesful login with recovery code");
+				$this->tfaDebug(__LINE__." ".__METHOD__.": Notifying user of successful login with recovery code");
 
 				$tfa_event_data = array(
 					'user_id' 		=> $user_id, 
