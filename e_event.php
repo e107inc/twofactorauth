@@ -101,6 +101,6 @@ class twofactorauth_event
 
 		e107::getEmail()->sendEmail($userdata["user_email"], $userdata["user_name"], $eml);
 
-		$tfa_class->tfaDebug(__LINE__." ".__FILE__.": Recovery code notification email sent")
+		$tfa_class->tfaDebug(__LINE__." ".__FILE__.": Recovery code notification email sent");
 	}
 } 
