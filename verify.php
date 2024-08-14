@@ -29,30 +29,18 @@ $session_previous_page 	= e107::getSession('2fa')->get('previous_page');
 // No need to access this file directly or when already logged in. 
 if(empty($session_user_id) || USER)
 {
-	if($tfa_class->checkDebug())
-	{
-		e107::getLog()->addDebug(__LINE__." ".__FILE__.": session_user_id: ".$session_user_id);
-		e107::getLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
-	}
+	$tfa_class->tfaDebug(__LINE__." ".__FILE__.": session_user_id: ".$session_user_id);
 
 	if(USER)
 	{
-		if($tfa_class->checkDebug())
-		{
-			e107::getLog()->addDebug(__LINE__." ".__FILE__.": User is already logged in? Redirect to setup");
-			e107::getLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
-		}
+		$tfa_class->tfaDebug(__LINE__." ".__FILE__.": User is already logged in? Redirect to setup");
 
 		$url = e107::url('twofactorauth', 'setup'); 
 		e107::redirect($url);
 	}
 	else
 	{
-		if($tfa_class->checkDebug())
-		{
-			e107::getLog()->addDebug(__LINE__." ".__FILE__.": session user id already set? Redirect to homepage");
-			e107::getLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
-		}
+		$tfa_class->tfaDebug(__LINE__." ".__FILE__.": session user id already set? Redirect to homepage");
 		e107::redirect();
 	}
 
@@ -105,11 +93,7 @@ if(isset($_POST))
 		}
 		else
 		{
-			if($tfa_class->checkDebug())
-			{
-				e107::getLog()->addDebug(__LINE__." ".__FILE__.": FPW - TOTP is correct. Return true.");
-				e107::getLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
-			}
+			$tfa_class->tfaDebug(__LINE__." ".__FILE__.": FPW - TOTP is correct. Return true.");
 
 			return true; 
 		}
