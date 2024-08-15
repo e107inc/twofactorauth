@@ -87,6 +87,8 @@ if(isset($_POST))
 
 	if(isset($_POST['enter-totp-fpw']))
 	{
+		$tfa_class->tfaDebug(__LINE__." ".__FILE__.": Start running processFpw");
+
 		if(!$tfa_class->processFpw($user_id, $totp))
 		{
 			e107::getMessage()->addError(LAN_2FA_INCORRECT_TOTP); 

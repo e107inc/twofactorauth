@@ -14,6 +14,10 @@ require_once(e_PLUGIN."twofactorauth/twofactorauth_class.php");
 
 class twofactorauth_event 
 {
+	function __construct()
+	{
+		$this->tfa_class = new tfa_class();
+	}
 
 	function config()
 	{
@@ -42,21 +46,21 @@ class twofactorauth_event
 
 	
 	function init_tfa($data, $eventname) 
-	{
+	{	
+		$this->tfa_class->tfaDebug(__LINE__." ".__FILE__.": Eventname: ".$eventname);
+
 		// Check to see if Two Factor Authentication is active for all users
 		if(e107::getPlugPref('twofactorauth', 'tfa_active'))
 	    {
-			$tfa_class = new tfa_class();
-			$tfa_class->tfaDebug(__LINE__." ".__FILE__.": Start Initialising TFA code.");
-			$tfa_class->tfaDebug(__LINE__." ".__FILE__.": Eventname: ".$eventname);
-			$tfa_class->init($data, $eventname);
+	    	$this->tfa_class->tfaDebug(__LINE__." ".__FILE__.": Start Initialising TFA code.");
+			$this->tfa_class->init($data, $eventname);
 		}
 	}
 
 	function recovery_code_used($data, $eventname)
 	{
 		$tfa = new tfa_class();
-		$tfa_class->tfaDebug(__LINE__." ".__FILE__.": Start recovery code notification");
+		$this->tfa_class->tfaDebug(__LINE__." ".__FILE__.": Start recovery code notification");
 
 		$userdata = e107::user($data['user_id']); 
 
@@ -70,7 +74,7 @@ class twofactorauth_event
 		// Recovery was valid
 		if($data["valid"])
 		{
-			$tfa_class->tfaDebug(__LINE__." ".__FILE__.": Recovery code was valid");
+			$this->tfa_class->tfaDebug(__LINE__." ".__FILE__.": Recovery code was valid");
 
 			$subject = LAN_2FA_RECOVERY_CODE_USED_VALID_TITLE;
 
@@ -81,7 +85,7 @@ class twofactorauth_event
 		// Recovery code was invalid
 		else
 		{
-			$tfa_class->tfaDebug(__LINE__." ".__FILE__.": Recovery code was invalid");
+			$this->tfa_class->tfaDebug(__LINE__." ".__FILE__.": Recovery code was invalid");
 
 			$subject = LAN_2FA_RECOVERY_CODE_USED_INVALID_TITLE; 
 
@@ -101,6 +105,6 @@ class twofactorauth_event
 
 		e107::getEmail()->sendEmail($userdata["user_email"], $userdata["user_name"], $eml);
 
-		$tfa_class->tfaDebug(__LINE__." ".__FILE__.": Recovery code notification email sent");
+		$this->tfa_class->tfaDebug(__LINE__." ".__FILE__.": Recovery code notification email sent");
 	}
 } 
