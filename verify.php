@@ -93,12 +93,11 @@ if(isset($_POST))
 		{
 			e107::getMessage()->addError(LAN_2FA_INCORRECT_TOTP); 
 		}
-		else
-		{
-			$tfa_class->tfaDebug(__LINE__." ".__FILE__.": FPW - TOTP is correct. Return true.");
-
-			return true; 
-		}
+		// else
+		// {
+		// 	$tfa_class->tfaDebug(__LINE__." ".__FILE__.": FPW - TOTP is correct. Return true.");
+		// 	return true; 
+		// }
 	}
 	
 }

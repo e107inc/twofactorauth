@@ -223,13 +223,13 @@ class tfa_class
 		if($this->verifyTotp($user_id, $totp))
 		{
 			$this->tfaDebug(__LINE__." ".__METHOD__.": FPW - TOTP is correct, return true");
-			return true; 
+			//return true; // TODO - hook back into fpw process somehow, just like validLogin();
 		}
 		// The entered TOTP is INCORRECT
 		else
 		{
-			$this->tfaDebug(__LINE__." ".__METHOD__.": FPW - TOTP is incorrect. Return error message");
-			return LAN_2FA_INCORRECT_TOTP; 
+			$this->tfaDebug(__LINE__." ".__METHOD__.": FPW - TOTP is incorrect. Return false");
+			return false;
 		}
 	}
 
