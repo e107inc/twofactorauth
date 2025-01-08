@@ -80,7 +80,7 @@ class twofactorauth_user_form extends e_form
 
 		$text = "<a href=".$url.">".$lan."</a>";
 
-		if(e107::getUserExt()->get(USERID, "user_plugin_twofactorauth_recovery_codes") == false)
+		if(e107::getUserExt()->get(USERID, "user_plugin_twofactorauth_recovery_codes") == false && e107::getUserExt()->get(USERID, "user_plugin_twofactorauth_secret_key"))
 		{
 			$text .= "<br> <i>".LAN_2FA_RECOVERYCODES_NOT_GENERATED_YET."</i>";
 		}	
