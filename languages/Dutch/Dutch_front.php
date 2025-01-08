@@ -28,7 +28,7 @@ define("LAN_2FA_ENTER_RECOVERYCODE_PLACEHOLDER", 	"Voer een herstelcode in");
 define("LAN_2FA_INCORRECT_RECOVERYCODE", 			"Je hebt een onjuiste herstelcode ingevoerd. Neem contact op met de websitebeheerder.");
 define("LAN_2FA_RECOVERYCODES_GENERATED", 			"Dit zijn de herstelcodes voor jouw account. Ze worden EENMAAL weergegeven! Sla de herstelcodes op een veilige plek op.");
 define("LAN_2FA_RECOVERYCODES_GENERATED_ERROR", 	"Het is niet gelukt om de herstelcodes voor jouw account aan te maken. Neem contact op met de websitebeheerder."); 
-
+define("LAN_2FA_RECOVERYCODES_REMOVED_ERROR", 		"Er is een probleem opgetreden bij het verwijderen van de herstelcodes voor jouw account. Neem contact op met de websitebeheerder."); 
 
 // Setup
 define("LAN_2FA_ENABLE_INSTRUCTIONS1", 	"Om twee-factor-authenticatie voor je account in te stellen, gebruikt je de [authenticator-app] op je apparaat om de onderstaande QR-code te scannen of om de geheime sleutel handmatig in te voeren."); // Do not remove the brackets [...] - they are used for links
@@ -38,5 +38,6 @@ define("LAN_2FA_DISABLE_INSTRUCTIONS", 	"Om tweefactorauthenticatie voor je acco
 
 define("LAN_2FA_ENABLED", 				"Twee-factor-authenticatie is met succes [b]ingeschakeld[/b]"); 
 define("LAN_2FA_DISABLED", 				"Twee-factor-authenticatie is succesvol [b]uitgeschakeld[/b]"); 
+define("LAN_2FA_DISABLED_ERROR", 		"Er is een probleem opgetreden bij het uitschakelen van twee-factor-authenticatie. Neem contact op met de websitebeheerder.");
 
 define("LAN_2FA_RETURN_USERSETTINGS", 	"Terug naar instellingen");
