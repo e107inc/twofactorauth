@@ -70,6 +70,7 @@ if(!$tfaActivated && isset($_POST['enter-totp-enable']))
 			if($recovery_codes = $tfa_class->generateRecoveryCodes(USERID))
 			{
 				// TODO Let user download a txt file with the codes 
+				// TODO allow some templating? 
 				$recovery_codes1 = array_slice($recovery_codes, 0, 5);
 				$recovery_codes2 = array_slice($recovery_codes, 5);
 
@@ -77,7 +78,7 @@ if(!$tfaActivated && isset($_POST['enter-totp-enable']))
 				$recovery_codes2 = implode("<br>", $recovery_codes2);
 
 
-				$text .= "<p><strong>".LAN_2FA_RECOVERYCODES_GENERATED."</strong><p>";
+				$text .= "<p><strong>".LAN_2FA_RECOVERYCODES_GENERATED."</strong></p>";
 
 				$text .= '<div class="row justify-content-center">';
 				$text .= '	<div class="col col-md-6 text-center">
