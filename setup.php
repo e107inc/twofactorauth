@@ -111,29 +111,33 @@ if($tfaActivated && isset($_POST['enter-totp-disable']))
 	$totp = intval($_POST['totp']);
 	$totp = (string) $totp;
 
-	if($tfa_class->processDisable(USERID, $totp))
+	// Check if Recovery Codes are set, and if yes, remove them 
+	if(e107::getPlugPref('twofactorauth', 'tfa_recoverycodes'))
 	{
-		e107::getMessage()->addSuccess(e107::getParser()->toHTML(LAN_2FA_DISABLED, true));
-		
-		// Check if Recovery Codes functionality is enabled, and if yes, generate new recovery codes
-		if(e107::getPlugPref('twofactorauth', 'tfa_recoverycodes'))
+		if($removed = $tfa_class->removeRecoveryCodes(USERID))
 		{
-			if($removed = $tfa_class->removeRecoveryCodes(USERID))
+			// Recovery codes removed, now disable 2FA
+			if($tfa_class->processDisable(USERID, $totp))
 			{
-				e107::getMessage()->addSuccess(LAN_2FA_RECOVERYCODES_REMOVED);
+				e107::getMessage()->addSuccess(e107::getParser()->toHTML(LAN_2FA_DISABLED, true));
+				
+				$text = "<a class='btn btn-primary' href='".$usersettings_url."'>".LAN_2FA_RETURN_USERSETTINGS."</a>.";
 			}
 			else
 			{
-				e107::getMessage()->addError(LAN_2FA_RECOVERYCODES_REMOVED_ERROR);
+				e107::getMessage()->addError(e107::getParser()->toHTML(LAN_2FA_DISABLED_ERROR, true));
 			}
-		} 
+		}
+		else
+		{
+			e107::getMessage()->addError(LAN_2FA_RECOVERYCODES_REMOVED_ERROR);
+		}
+	} 
+	
 
-		$text = "<a class='btn btn-primary' href='".$usersettings_url."'>".LAN_2FA_RETURN_USERSETTINGS."</a>.";
-
-		e107::getRender()->tablerender($caption, e107::getMessage()->render().$text);
-		require_once(FOOTERF);
-		exit;  
-	}
+	e107::getRender()->tablerender($caption, e107::getMessage()->render().$text);
+	require_once(FOOTERF);
+	exit;  
 }
 
 
