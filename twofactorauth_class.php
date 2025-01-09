@@ -472,7 +472,7 @@ class tfa_class
 
 	    for ($x = 0; $x <= 9; $x++) 
 	    {
-	  		$code = $randomizer->getBytesFromString('abcdefghijklmnopqrstuvwxyz0123456789', 16); 
+	  		$code = $randomizer->getBytesFromString('0123456789ABCDEFGHJKMNPQRSTVWXYZ', 16); 
 	  		$code = implode('-', str_split($code, 4)); 
 	  		
 	  		array_push($codes_array_readable, $code);  
