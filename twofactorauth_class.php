@@ -14,7 +14,7 @@ use \RobThree\Auth\Providers\Qr\EndroidQrCodeProvider;
 
 class tfa_class
 {
-	// If enabled, log to debug file 
+	// If enabled, write debug messages to debug file 
 	public function tfaDebug($message)
 	{
 		if(e107::getPlugPref('twofactorauth', 'tfa_debug')) 
@@ -143,7 +143,7 @@ class tfa_class
 		// Check if the entered TOTP is correct. 
 		if($tfa_library->verifyCode($secret_key, $totp, 2) === true) 
 		{
-			$this->tfaDebug(__LINE__." ".__METHOD__.": The TOTP code that was entered, is correct");	
+			$this->tfaDebug(__LINE__." ".__METHOD__.": The TOTP code that was entered, is correct");
 			return true;
 		}
 		else
@@ -504,6 +504,8 @@ class tfa_class
 			e107::getMessage()->addError(LAN_2FA_DATABASE_ERROR);
 			return false; 
 		}
+
+		$this->tfaDebug(__LINE__." ".__METHOD__.": secret_key has been removed from EUF field");
 
 		return true; 
 	}
