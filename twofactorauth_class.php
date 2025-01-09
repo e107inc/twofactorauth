@@ -465,6 +465,7 @@ class tfa_class
 	{
 		$this->tfaDebug(__LINE__." ".__METHOD__.": Start generating recovery codes");
 
+		/* USE THIS WHEN PHP 8.3 IS REQUIRED. FOR NOW, USE SOMETHING THAT IS SUITABLE FOR 8.2 AS WELL. 
 		$codes_array_readable 	= array(); 
 		$codes_array_hashed 	= array(); 
 
@@ -480,7 +481,31 @@ class tfa_class
 	  		// now hash the code, store it in the hashed codes array
 	  		$hashed_code = password_hash($code, PASSWORD_DEFAULT);	
 	  		array_push($codes_array_hashed, $hashed_code);
-		}
+		}*/
+
+		$codes_array_readable 	= array(); 
+		$codes_array_hashed 	= array();
+
+		$characters 	= '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
+	    $stringLength 	= strlen($characters);
+	    $randomString 	= '';
+	    
+	    for ($x = 0; $x <= 9; $x++) 
+	    {
+	    	$randomString 	= '';
+
+	        for($i = 0; $i < 16; $i++) 
+	        {
+	            $randomString .= $characters[random_int(0, $stringLength - 1)];
+	        }
+
+	        $code = implode('-', str_split($randomString, 4)); 
+		  	array_push($codes_array_readable, $code);  
+
+		    // now hash the code, store it in the hashed codes array
+			$hashed_code = password_hash($code, PASSWORD_DEFAULT);	
+			array_push($codes_array_hashed, $hashed_code);
+	    }
 
 		$codes_array_serialized = serialize($codes_array_hashed);
 
