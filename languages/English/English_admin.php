@@ -21,6 +21,9 @@ define("LAN_2FA_PREFS_RECOVERY_CODES_ATTEMPTS_HELP", 	"The amount of tries a use
 define("LAN_2FA_PREFS_DEBUG", 			"Debug Mode");
 define("LAN_2FA_PREFS_DEBUG_HELP", 		"When enabled, log files are generated which can help debug issues.");
 
+define("LAN_2FA_PREFS_EVENTLOG", 		"Event logging");
+define("LAN_2FA_PREFS_EVENTLOG_HELP", 	"If enabled, log certain events to the Systems Logs. These can be accessed through Admin Area > Tools > System Logs.");
+
 define("LAN_2FA_PREFS_WEBLABEL", 		"Website Label");
 define("LAN_2FA_PREFS_WEBLABEL_HELP", 	"This is used in the authenticator device to label your Website. Defaults to SITENAME as set in Preferences");
 

@@ -21,6 +21,9 @@ define("LAN_2FA_PREFS_RECOVERY_CODES_ATTEMPTS_HELP", 	"Het aantal pogingen dat e
 define("LAN_2FA_PREFS_DEBUG", 			"Foutopsporingsmodus");
 define("LAN_2FA_PREFS_DEBUG_HELP", 		"Indien ingeschakeld, worden er logbestanden gegenereerd die kunnen helpen bij het opsporen van problemen.");
 
+define("LAN_2FA_PREFS_EVENTLOG", 		"Gebeurtenis logging");
+define("LAN_2FA_PREFS_EVENTLOG_HELP", 	"Indien ingeschakeld, worden er bepaalde gebeurtenissen opgeslagen in de logboeken.");
+
 define("LAN_2FA_PREFS_WEBLABEL", 		"Website label");
 define("LAN_2FA_PREFS_WEBLABEL_HELP", 	"Dit wordt gebruikt in de authenticatie app om je website te labelen. Standaard ingesteld op SITENAME zoals ingesteld in voorkeuren");
 

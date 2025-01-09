@@ -23,6 +23,30 @@ class tfa_class
 			e107::getLog()->toFile('twofactorauth', 'TwoFactorAuth Debug Information', true);
 		}
 	}
+
+	// If enabled, log certain events to the Systems Logs. These can be accessed through Admin Area > Tools > System Logs. 
+	public function tfaLog($title, $details, $type = E_LOG_INFORMATIVE, $code)
+	{
+		/*
+		LAN_2FA_*
+
+			TFA_01 - TFA enabled on account
+			TFA_02 - TFA disabled on account
+			
+			TFA_03 - TFA TOTP correct
+			TFA_04 - TFA TOTP invalid
+
+			TFA_05 - TFA recovery code valid
+			TFA_06 - TFA recovery code invalid
+			TFA_07 - TFA recovery code floodlimit
+
+		*/
+
+		if(e107::getPlugPref('twofactorauth', 'tfa_eventlogging')) 
+		{
+			e107::getLog()->add($title, $details, $type, $code);
+		}
+	}
 	
 	public function init($data, $eventname)
 	{
@@ -180,6 +204,7 @@ class tfa_class
 		if($this->verifyTotp($user_id, $totp))
 		{
 			e107::getLog()->addDebug(__LINE__." ".__METHOD__.": LOGIN - TOTP is correct, continue logging in");
+			$this->tfaLog(LAN_2FA_TFA_03, 'Login', E_LOG_INFORMATIVE, "TFA_03"); 
 			
 			// Continue processing login 
 			$user = e107::user($user_id);
@@ -212,6 +237,8 @@ class tfa_class
 		else
 		{
 			$this->tfaDebug(__LINE__." ".__METHOD__.": LOGIN - TOTP is incorrect. Return false");
+			$this->tfaLog(LAN_2FA_TFA_04, 'Login', E_LOG_WARNING, "TFA_04"); 
+
 			return false; 
 		}
 	}
@@ -252,6 +279,7 @@ class tfa_class
 		if($fails > $failLimit)
 		{
 			$this->tfaDebug(__LINE__." ".__METHOD__.": Flood protection triggered because user has reached the faillimit, banning the IP addres now.");
+			$this->tfaLog(LAN_2FA_TFA_07, '', E_LOG_WARNING, "TFA_07"); 
 			
 			$reason	= e107::getParser()->lanVars(LAN_2FA_RECOVERY_CODE_REACHED_FAILLIMIT, $failLimit);
 
@@ -288,6 +316,7 @@ class tfa_class
 
 				// Notify user that a recovery code was used, and inform of how many recovery codes are left. 
 				$this->tfaDebug(__LINE__." ".__METHOD__.": Notifying user of successful login with recovery code");
+				$this->tfaLog(LAN_2FA_TFA_05, '', E_LOG_INFORMATIVE, "TFA_05"); 
 
 				$tfa_event_data = array(
 					'user_id' 		=> $user_id, 
@@ -310,6 +339,7 @@ class tfa_class
 				{
 		       		// Yes it was the last stored OTP. So this is a definite NO. 
 		       		$this->tfaDebug(__LINE__." ".__METHOD__.": The entered recovery code is INVALID. Log it to floodprotection");
+					$this->tfaLog(LAN_2FA_TFA_06, '', E_LOG_WARNING, "TFA_06");
 
 		   			// Log it for floodprotection
 		   			$insert = array(
@@ -408,6 +438,7 @@ class tfa_class
 		{
 			$this->tfaDebug(__LINE__." ".__METHOD__.": Entered TOTP is incorrect: ".$totp);
 			$this->tfaDebug(__LINE__." ".__METHOD__.": Secret Key: ".$secret_key);
+			$this->tfaLog(LAN_2FA_TFA_04, 'Upon enable', E_LOG_WARNING, "TFA_04");
 
 			e107::getMessage()->addError(LAN_2FA_INCORRECT_TOTP);
 			return false; 
@@ -425,6 +456,7 @@ class tfa_class
 		}
 
 		$this->tfaDebug(__LINE__." ".__METHOD__.": Secret key has been added to the EUF");
+		$this->tfaLog(LAN_2FA_TFA_01, '', E_LOG_INFORMATIVE, "TFA_01"); 
 
 		return true; 
 	}
@@ -493,6 +525,8 @@ class tfa_class
 		if($tfa_library->verifyCode($secret_key, $totp, 2) === false) 
 		{
 			$this->tfaDebug(__LINE__." ".__METHOD__.": Entered TOTP is incorrect: ".$totp);
+			$this->tfaLog(LAN_2FA_TFA_04, 'Upon disable', E_LOG_WARNING, "TFA_04");
+
 			e107::getMessage()->addError(LAN_2FA_INCORRECT_TOTP);
 			return false; 
 		}
@@ -506,6 +540,7 @@ class tfa_class
 		}
 
 		$this->tfaDebug(__LINE__." ".__METHOD__.": secret_key has been removed from EUF field");
+		$this->tfaLog(LAN_2FA_TFA_02, '', E_LOG_INFORMATIVE, "TFA_02");
 
 		return true; 
 	}

@@ -138,6 +138,14 @@ class twofactorauth_ui extends e_admin_ui
 				'help'			=> LAN_2FA_PREFS_ACTIVE_HELP, 
 				'writeParms'	=> array()
 			),
+			'tfa_label' => array(
+				'title'			=> LAN_2FA_PREFS_WEBLABEL, 
+				'tab'			=> 0,
+				'type'			=> 'text', 
+				'data' 			=> 'str', 
+				'help'			=> LAN_2FA_PREFS_WEBLABEL_HELP, 
+				'writeParms' 	=> array()
+			),
 			'tfa_recoverycodes' => array(
 				'title'			=> LAN_2FA_PREFS_RECOVERY_CODES, 
 				'tab'			=> 0, 
@@ -162,14 +170,15 @@ class twofactorauth_ui extends e_admin_ui
 				'help'			=> LAN_2FA_PREFS_DEBUG_HELP, 
 				'writeParms'	=> array()
 			),
-			'tfa_label' => array(
-				'title'			=> LAN_2FA_PREFS_WEBLABEL, 
-				'tab'			=> 0,
-				'type'			=> 'text', 
-				'data' 			=> 'str', 
-				'help'			=> LAN_2FA_PREFS_WEBLABEL_HELP, 
-				'writeParms' 	=> array()
+			'tfa_eventlogging' => array(
+				'title'			=> LAN_2FA_PREFS_EVENTLOG, 
+				'tab'			=> 0, 
+				'type'			=> 'boolean', 
+				'data' 			=> 'int', 
+				'help'			=> LAN_2FA_PREFS_EVENTLOG_HELP, 
+				'writeParms'	=> array()
 			),
+			
 		); 
 
 	

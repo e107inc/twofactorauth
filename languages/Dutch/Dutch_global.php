@@ -29,3 +29,12 @@ define("LAN_2FA_RECOVERY_CODE_USED_INVALID_1", 		"Iemand heeft zojuist (op [x]) 
 define("LAN_2FA_RECOVERY_CODE_USED_INVALID_2", 		"Er is geen actie van jou nodig. Neem contact op met de websitebeheerder als de pogingen door blijven gaan.");
 define("LAN_2FA_RECOVERY_CODE_REACHED_FAILLIMIT", 	"TwoFactorAuth: Meer dan [x] mislukte pogingen om in te loggen met een herstelcode.");
 define("LAN_2FA_RECOVERYCODES_NOT_GENERATED_YET", 	"Er zijn nog geen herstelcodes aangemaakt. Schakel twee-factor-authenticatie uit en weer in om deze te genereren.");
+
+// Event logging
+define("LAN_2FA_TFA_01", "TFA Ingeschakeld"); 
+define("LAN_2FA_TFA_02", "TFA Uitgeschakeld"); 
+define("LAN_2FA_TFA_03", "TFA TOTP geldig"); 
+define("LAN_2FA_TFA_04", "TFA TOTP ongeldig"); 
+define("LAN_2FA_TFA_05", "TFA Herstelcode geldig"); 
+define("LAN_2FA_TFA_06", "TFA Herstelcode ongeldig"); 
+define("LAN_2FA_TFA_07", "TFA Herstelcode blokkade"); 

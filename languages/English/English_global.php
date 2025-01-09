@@ -29,3 +29,12 @@ define("LAN_2FA_RECOVERY_CODE_USED_INVALID_1", 		"Someone just tried to login to
 define("LAN_2FA_RECOVERY_CODE_USED_INVALID_2", 		"There is no action needed on your part. If the issue persists, please contact the website administrator.");
 define("LAN_2FA_RECOVERY_CODE_REACHED_FAILLIMIT", 	"TwoFactorAuth: More than [x] failed attempts to login using a recovery code.");
 define("LAN_2FA_RECOVERYCODES_NOT_GENERATED_YET", 	"There are no recovery codes set yet. Please disable and re-enable Two Factor Authentication to generate them."); 
+
+// Event logging
+define("LAN_2FA_TFA_01", "TFA Enabled"); 
+define("LAN_2FA_TFA_02", "TFA Disabled"); 
+define("LAN_2FA_TFA_03", "TFA TOTP valid"); 
+define("LAN_2FA_TFA_04", "TFA TOTP invalid"); 
+define("LAN_2FA_TFA_05", "TFA Recovery Code valid"); 
+define("LAN_2FA_TFA_06", "TFA Recovery Code invalid"); 
+define("LAN_2FA_TFA_07", "TFA Recovery Code floodlimit"); 

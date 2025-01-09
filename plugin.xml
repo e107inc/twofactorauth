@@ -19,6 +19,7 @@
 		<pref name="tfa_recoverycodesattempts">3</pref>
 		<pref name="tfa_debug">0</pref>
 		<pref name="tfa_label"></pref>
+		<pref name="tfa_eventlogging">0</pref>
 	</pluginPrefs>
 	<dependencies>
 		<php name='core' min_version='8.2.0' />
