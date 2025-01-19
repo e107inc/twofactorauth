@@ -28,7 +28,6 @@ define("LAN_2FA_ENTER_RECOVERYCODE_PLACEHOLDER", 	"Voer een herstelcode in");
 define("LAN_2FA_INCORRECT_RECOVERYCODE", 			"Je hebt een onjuiste herstelcode ingevoerd. Neem contact op met de websitebeheerder.");
 define("LAN_2FA_RECOVERYCODES_GENERATED", 			"Dit zijn de herstelcodes voor jouw account. Ze worden EENMAAL weergegeven! Sla de herstelcodes op een veilige plek op.");
 define("LAN_2FA_RECOVERYCODES_GENERATED_ERROR", 	"Het is niet gelukt om de herstelcodes voor jouw account aan te maken. Neem contact op met de websitebeheerder."); 
-define("LAN_2FA_RECOVERYCODES_REMOVED_ERROR", 		"Er is een probleem opgetreden bij het verwijderen van de herstelcodes voor jouw account. Neem contact op met de websitebeheerder."); 
 
 // Setup
 define("LAN_2FA_ENABLE_INSTRUCTIONS1", 	"Om twee-factor-authenticatie voor je account in te stellen, gebruikt je de [authenticator-app] op je apparaat om de onderstaande QR-code te scannen of om de geheime sleutel handmatig in te voeren."); // Do not remove the brackets [...] - they are used for links

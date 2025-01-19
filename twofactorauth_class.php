@@ -564,8 +564,16 @@ class tfa_class
 			return false; 
 		}
 
-		$this->tfaDebug(__LINE__." ".__METHOD__.": secret_key has been removed from EUF field");
 		$this->tfaLog(LAN_2FA_TFA_02, '', E_LOG_INFORMATIVE, "TFA_02");
+		if(!e107::getUserExt()->set($user_id, "user_plugin_twofactorauth_recovery_codes", ''))
+		{
+			$this->tfaDebug(__LINE__." ".__METHOD__.": Could not empty recovery_codes EUF field");
+
+			e107::getMessage()->addError(LAN_2FA_DATABASE_ERROR);
+			return false; 
+		}
+
+		$this->tfaDebug(__LINE__." ".__METHOD__.": secret_key and recovery codes have been removed from EUF field");
 
 		return true; 
 	}
