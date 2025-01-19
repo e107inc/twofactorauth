@@ -38,3 +38,4 @@ define("LAN_2FA_TFA_04", "TFA TOTP invalid");
 define("LAN_2FA_TFA_05", "TFA Recovery Code valid"); 
 define("LAN_2FA_TFA_06", "TFA Recovery Code invalid"); 
 define("LAN_2FA_TFA_07", "TFA Recovery Code floodlimit"); 
+define("LAN_2FA_TFA_08", "TFA Disabled by administrator"); 

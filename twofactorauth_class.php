@@ -25,13 +25,13 @@ class tfa_class
 	}
 
 	// If enabled, log certain events to the Systems Logs. These can be accessed through Admin Area > Tools > System Logs. 
-	public function tfaLog($title, $details, $type = E_LOG_INFORMATIVE, $code)
+	public function tfaLog($title, $details, $type = E_LOG_INFORMATIVE, $code, $target = LOG_TO_ADMIN, $userData = array())
 	{
 		/*
 		LAN_2FA_*
 
-			TFA_01 - TFA enabled on account
-			TFA_02 - TFA disabled on account
+			TFA_01 - TFA enabled on account by user
+			TFA_02 - TFA disabled on account by user
 			
 			TFA_03 - TFA TOTP correct
 			TFA_04 - TFA TOTP invalid
@@ -40,11 +40,12 @@ class tfa_class
 			TFA_06 - TFA recovery code invalid
 			TFA_07 - TFA recovery code floodlimit
 
+			TFA_08 - TFA disabled on account by administrator
 		*/
 
 		if(e107::getPlugPref('twofactorauth', 'tfa_eventlogging')) 
 		{
-			e107::getLog()->add($title, $details, $type, $code);
+			e107::getLog()->add($title, $details, $type, $code, $target, $userData);
 		}
 	}
 	
@@ -204,7 +205,7 @@ class tfa_class
 		if($this->verifyTotp($user_id, $totp))
 		{
 			e107::getLog()->addDebug(__LINE__." ".__METHOD__.": LOGIN - TOTP is correct, continue logging in");
-			$this->tfaLog(LAN_2FA_TFA_03, 'Login', E_LOG_INFORMATIVE, "TFA_03"); 
+			$this->tfaLog(LAN_2FA_TFA_03, 'Login', E_LOG_INFORMATIVE, "TFA_03", LOG_TO_ADMIN, e107::user(USERID)); 
 			
 			// Continue processing login 
 			$user = e107::user($user_id);
@@ -237,7 +238,7 @@ class tfa_class
 		else
 		{
 			$this->tfaDebug(__LINE__." ".__METHOD__.": LOGIN - TOTP is incorrect. Return false");
-			$this->tfaLog(LAN_2FA_TFA_04, 'Login', E_LOG_WARNING, "TFA_04"); 
+			$this->tfaLog(LAN_2FA_TFA_04, 'Upon login', E_LOG_WARNING, "TFA_04", LOG_TO_ADMIN, e107::user(USERID)); 
 
 			return false; 
 		}
@@ -456,7 +457,7 @@ class tfa_class
 		}
 
 		$this->tfaDebug(__LINE__." ".__METHOD__.": Secret key has been added to the EUF");
-		$this->tfaLog(LAN_2FA_TFA_01, '', E_LOG_INFORMATIVE, "TFA_01"); 
+		$this->tfaLog(LAN_2FA_TFA_01, '', E_LOG_INFORMATIVE, "TFA_01", LOG_TO_ADMIN, e107::user(USERID)); 
 
 		return true; 
 	}
@@ -550,7 +551,7 @@ class tfa_class
 		if($tfa_library->verifyCode($secret_key, $totp, 2) === false) 
 		{
 			$this->tfaDebug(__LINE__." ".__METHOD__.": Entered TOTP is incorrect: ".$totp);
-			$this->tfaLog(LAN_2FA_TFA_04, 'Upon disable', E_LOG_WARNING, "TFA_04");
+			$this->tfaLog(LAN_2FA_TFA_04, 'Upon disable', E_LOG_WARNING, "TFA_04", LOG_TO_ADMIN, e107::user(USERID)); 
 
 			e107::getMessage()->addError(LAN_2FA_INCORRECT_TOTP);
 			return false; 
@@ -564,7 +565,6 @@ class tfa_class
 			return false; 
 		}
 
-		$this->tfaLog(LAN_2FA_TFA_02, '', E_LOG_INFORMATIVE, "TFA_02");
 		if(!e107::getUserExt()->set($user_id, "user_plugin_twofactorauth_recovery_codes", ''))
 		{
 			$this->tfaDebug(__LINE__." ".__METHOD__.": Could not empty recovery_codes EUF field");
@@ -574,6 +574,7 @@ class tfa_class
 		}
 
 		$this->tfaDebug(__LINE__." ".__METHOD__.": secret_key and recovery codes have been removed from EUF field");
+		$this->tfaLog(LAN_2FA_TFA_02, '', E_LOG_INFORMATIVE, "TFA_02", LOG_TO_ADMIN, e107::user(USERID)); 
 
 		return true; 
 	}

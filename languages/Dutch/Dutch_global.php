@@ -38,3 +38,4 @@ define("LAN_2FA_TFA_04", "TFA TOTP ongeldig");
 define("LAN_2FA_TFA_05", "TFA Herstelcode geldig"); 
 define("LAN_2FA_TFA_06", "TFA Herstelcode ongeldig"); 
 define("LAN_2FA_TFA_07", "TFA Herstelcode blokkade"); 
+define("LAN_2FA_TFA_08", "TFA Uitgeschakeld door websitebeheerder"); 

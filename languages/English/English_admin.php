@@ -35,6 +35,8 @@ define("LAN_2FA_DISABLE_ERROR", 			"Could not disable Two Factor Authentication 
 
 define("LAN_2FA_DISABLE_BATCH",             "Disable Two Factor Authentication for selected users");
 
+define("LAN_2FA_DISABLE_BYADMIN", 			"Disabled by administrator");
+
 // Help
 define("LAN_2FA_HELP_MANAGE", 	"The table on right right shows every user who has activated Two Factor Authentication on their account.");
 define("LAN_2FA_HELP_DISABLE1", "As an admin, you can disable Two Factor Authentication for each user by clicking the cross icon.");

@@ -35,6 +35,8 @@ define("LAN_2FA_DISABLE_ERROR", 			"Kan twee-factor-authenticatie niet uitschake
 
 define("LAN_2FA_DISABLE_BATCH",             "Schakel twee-factor-authenticatie uit voor geselecteerde gebruikers");
 
+define("LAN_2FA_DISABLE_BYADMIN", 			"Uitgeschakeld door websitebeheerder");
+
 // Help
 define("LAN_2FA_HELP_MANAGE", 	"De tabel rechts toont elke gebruiker die twee-factor-authenticatie op zijn account heeft geactiveerd.");
 define("LAN_2FA_HELP_DISABLE1", "Als beheerder kan je twee-factor-authenticatie voor elke gebruiker uitschakelen door op het kruisje te klikken.");

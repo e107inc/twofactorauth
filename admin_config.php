@@ -264,6 +264,12 @@ class twofactorauth_ui extends e_admin_ui
 			// Delete the secret_key and recovery codes from the EUF
 			if(e107::getUserExt()->set($user_id, "user_plugin_twofactorauth_secret_key", null) && e107::getUserExt()->set($user_id, "user_plugin_twofactorauth_recovery_codes", null))
 			{
+				// Log the event to the System Logs
+				if(e107::getPlugPref('twofactorauth', 'tfa_eventlogging')) 
+				{
+					e107::getLog()->add(LAN_2FA_TFA_08, LAN_2FA_DISABLE_BYADMIN." ".USERNAME." (".USERID.")", E_LOG_INFORMATIVE, "TFA_08", LOG_TO_ADMIN, e107::user($user_id));
+				}
+
 				$message = e107::getParser()->lanVars(LAN_2FA_DISABLE_SUCCESS, $user_id);
 				e107::getMessage()->addSuccess($message);
 				return; 
