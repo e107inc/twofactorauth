@@ -154,7 +154,7 @@ if(!$tfaActivated)
 	
 	e107::getMessage()->addInfo($instructions1);
 
-	$text .= '<img class="center-block" src="' . $tfa_library->getQRCodeImageAsDataUri($label, $secret) . '"><br>';
+	$text .= '<div class="d-flex justify-content-center"><img class="center-block" src="' . $tfa_library->getQRCodeImageAsDataUri($label, $secret) . '"></div><br>';
 	$text .= '<p class="text-center font-italic">'.chunk_split($secret, 4, ' ').'</p>';
 	$text .= '<p>'.LAN_2FA_ENABLE_INSTRUCTIONS2.'</p>';
 
