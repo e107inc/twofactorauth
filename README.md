@@ -12,7 +12,7 @@ It makes use of the [TwoFactorAuth Library by RobThree](https://github.com/RobTh
 * Ability to change "Label" (used in the authentication application) in preferences
 
 ### Features planned for future releases: 
-* See [Issue tracker](https://github.com/e107inc/twofactorauth/issues?q=is%3Aopen+is%3Aissue+label%3A%22status%3A+planned%22+label%3A%22type%3A+enhancement%22) 
+* See [Issue tracker](https://github.com/e107inc/twofactorauth/issues?q=is%3Aopen%20is%3Aissue%20type%3AFeature%20label%3A%22status%3A%20planned%22) 
 
 ## Requirements ##
 * e107 v2.3.1+ 
